@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Equazioni Differenziali — Appunti</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+  <style>
+    :root {
+      --bg: #f5f3ec;
+      --paper: #fffef9;
+      --text: #1c1c1c;
+      --muted: #777;
+      --red: #b5231a;
+      --violet: #6b2d8c;
+      --blue: #1a3f6f;
+      --border: #dedad0;
+      --example-bg: #f0ede2;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 19px;
+      line-height: 1.75;
+    }
+    .page {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 48px 32px 96px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      padding-bottom: 20px;
+      margin-bottom: 36px;
+      border-bottom: 2.5px solid var(--text);
+    }
+    header h1 {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    header p {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* ── TOC ── */
+    .toc {
+      background: var(--paper);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px 28px;
+      margin-bottom: 52px;
+    }
+    .toc-label {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .toc ol { padding-left: 22px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); text-decoration: none; font-size: 17px; }
+    .toc a:hover { text-decoration: underline; }
+    .toc .sub { padding-left: 22px; list-style-type: lower-alpha; margin-top: 2px; }
+
+    /* ── SECTIONS ── */
+    section { margin-bottom: 60px; }
+    .sec-num {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .sec-num.blue  { color: var(--blue); }
+    .sec-num.red   { color: var(--red); }
+    .sec-num.violet{ color: var(--violet); }
+    h2 {
+      font-size: 25px;
+      font-weight: 600;
+      padding-bottom: 8px;
+      margin-bottom: 22px;
+      border-bottom: 2px solid currentColor;
+    }
+    h2.blue   { color: var(--blue); }
+    h2.red    { color: var(--red); }
+    h2.violet { color: var(--violet); }
+    h3 {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 28px 0 10px;
+    }
+    p { margin-bottom: 12px; }
+
+    /* ── CALLOUT BOXES ── */
+    .def {
+      border-left: 3px solid var(--blue);
+      background: #edf2f9;
+      padding: 12px 16px;
+      margin: 14px 0;
+      border-radius: 0 4px 4px 0;
+    }
+    .def.red    { border-color: var(--red);    background: #fdf0ef; }
+    .def.violet { border-color: var(--violet); background: #f4edf9; }
+
+    /* ── EXAMPLE BOXES ── */
+    .esempio {
+      background: var(--example-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 18px 22px;
+      margin: 18px 0;
+    }
+    .esempio-label {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    /* ── STEPS ── */
+    .steps { list-style: none; padding: 0; margin: 10px 0; }
+    .steps li {
+      padding: 5px 0 5px 18px;
+      border-left: 2px solid var(--border);
+      margin-bottom: 6px;
+    }
+
+    /* ── FORMULA DISPLAY ── */
+    .formula {
+      text-align: center;
+      padding: 10px 8px;
+      margin: 14px 0;
+      overflow-x: auto;
+    }
+    .formula-box {
+      text-align: center;
+      padding: 16px;
+      margin: 16px 0;
+      border: 1.5px solid var(--red);
+      background: #fdf0ef;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+    .formula-box strong {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--red);
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    /* ── RESULT ── */
+    .result {
+      background: #fffbe6;
+      border: 1px solid #e0b800;
+      border-radius: 4px;
+      padding: 10px 16px;
+      margin: 12px 0;
+      overflow-x: auto;
+      text-align: center;
+    }
+
+    /* ── VERIFIED ── */
+    .verified {
+      display: inline-block;
+      margin-top: 10px;
+      background: #e8f5e9;
+      border: 1px solid #81c784;
+      border-radius: 4px;
+      padding: 5px 14px;
+      color: #2e7d32;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+    }
+    .note { font-size: 16px; color: var(--muted); font-style: italic; }
+
+    /* ── PRINT ── */
+    @media print {
+      body { background: white; font-size: 17px; }
+      .page { padding: 20px; max-width: 100%; }
+      .toc { break-after: page; }
+      section { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <h1>Equazioni Differenziali</h1>
+    <p>Appunti &mdash; Analisi Matematica</p>
+  </header>
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="toc">
+    <p class="toc-label">Indice</p>
+    <ol>
+      <li><a href="#intro">Introduzione e Definizioni</a></li>
+      <li><a href="#cauchy">Problema di Cauchy</a></li>
+      <li><a href="#separabili">Equazioni a Variabili Separabili</a></li>
+      <li><a href="#lineari">Equazioni Lineari del Primo Ordine</a>
+        <ol class="sub">
+          <li><a href="#omogenee">Omogenee</a></li>
+          <li><a href="#complete">Complete</a></li>
+        </ol>
+      </li>
+      <li><a href="#verifica">Verifica di un&rsquo;Equazione Differenziale</a></li>
+    </ol>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       SEZIONE 1 — INTRODUZIONE
+  ════════════════════════════════════════ -->
+  <section id="intro">
+    <p class="sec-num blue">Sezione 1</p>
+    <h2 class="blue">Introduzione e Definizioni</h2>
+
+    <p>
+      Un&rsquo;<strong>equazione differenziale</strong> è un&rsquo;equazione in cui l&rsquo;incognita è una
+      <em>funzione</em> \(y = f(x)\), e nella quale compaiono la funzione stessa e le sue derivate.
+    </p>
+    <p class="note">Esempio: &ensp; \(y' - 4x^2 + 1 = 0\)</p>
+
+    <div class="def">
+      <strong>Ordine</strong>: massimo grado della derivata presente nell&rsquo;equazione.<br>
+      <span class="note">Es: \(y'' - 3y' + 5x - 7 = 0\) &rarr; equazione di <em>secondo ordine</em></span>
+    </div>
+
+    <div class="def">
+      <strong>Curva integrale</strong>: il grafico di una soluzione — cioè la curva \(y = f(x)\) nel piano.
+    </div>
+
+    <div class="def">
+      <strong>Soluzione generale</strong>: l&rsquo;insieme di <em>tutte</em> le infinite soluzioni al variare
+      della costante di integrazione \(+C\).<br>
+      <strong>Soluzione particolare</strong>: una singola soluzione della famiglia, determinata da condizioni al contorno.
+    </div>
+
+    <h3>Esempio fisico — Moto Uniformemente Accelerato</h3>
+
+    <p>
+      Il sistema cinematico è un caso naturale di equazione differenziale.
+      La tripletta \(\bigl(S(t),\,v(t),\,a(t)\bigr)\) è legata da derivate e integrali:
+    </p>
+
+    <div class="formula">
+      \[\begin{cases}
+        S(t) = S_0 + v_0\,t + \tfrac{1}{2}\,a\,t^2 \\[4pt]
+        v(t) = S'(t) = v_0 + a\,t \\[4pt]
+        a(t) = v'(t) = S''(t) = a \quad \text{(costante)}
+      \end{cases}\]
+    </div>
+
+    <p>
+      La costante \(C\) dipende dalle <strong>condizioni iniziali</strong> \(S_0\) e \(v_0\).
+    </p>
+
+    <div class="def">
+      <strong>Condizioni al contorno</strong>: l&rsquo;equazione \(y_0 = f(x_0)\) determina il valore di \(C\).<br>
+      Se \(x_0 = 0\) si parla di <em>condizione iniziale</em>.
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       SEZIONE 2 — PROBLEMA DI CAUCHY
+  ════════════════════════════════════════ -->
+  <section id="cauchy">
+    <p class="sec-num blue">Sezione 2</p>
+    <h2 class="blue">Problema di Cauchy</h2>
+
+    <div class="def">
+      Il <strong>Problema di Cauchy</strong> è la combinazione di:
+      \[\begin{cases}
+        \text{equazione differenziale} & \Longrightarrow \text{soluzione generale} \\[4pt]
+        \text{condizione al contorno}  & \Longrightarrow \text{soluzione particolare}
+      \end{cases}\]
+    </div>
+
+    <div class="esempio">
+      <p class="esempio-label">Esempio — Problema di Cauchy con \(a(t)=2t\)</p>
+      <p>
+        Dato \(a(t) = S''(t) = 2t\), trovare \(S(t)\) con le condizioni iniziali
+        \(v_0 = 3\,\text{m/s}\) e \(S_0 = -\tfrac{4}{3}\,\text{m}\).
+      </p>
+
+      <h3>Passo 1 &mdash; velocità</h3>
+      <ul class="steps">
+        <li>\(v(t) = S'(t) = \displaystyle\int 2t\,dt = t^2 + v_0\)</li>
+        <li>Dalla condizione \(v_0 = 3\): &ensp; \(v(t) = t^2 + 3\)</li>
+      </ul>
+
+      <h3>Passo 2 &mdash; posizione</h3>
+      <ul class="steps">
+        <li>\(S(t) = \displaystyle\int (t^2 + 3)\,dt = \frac{t^3}{3} + 3t + S_0\)</li>
+        <li>Dalla condizione \(S_0 = -\tfrac{4}{3}\):</li>
+      </ul>
+
+      <div class="result">
+        \[S(t) = \frac{t^3}{3} + 3t - \frac{4}{3}\]
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       SEZIONE 3 — VARIABILI SEPARABILI
+  ════════════════════════════════════════ -->
+  <section id="separabili">
+    <p class="sec-num red">Sezione 3</p>
+    <h2 class="red">Equazioni a Variabili Separabili</h2>
+
+    <div class="def red">
+      Un&rsquo;equazione è <strong>a variabili separabili</strong> se può essere scritta nella forma:
+      \[y' = g(x)\cdot h(y)\]
+      con \(g(x)\) ed \(h(y)\) contenute rispettivamente <em>solo</em> nelle variabili \(x\) e \(y\).
+    </div>
+
+    <h3>Metodo risolutivo</h3>
+    <p>Si separano le variabili e si integra membro a membro:</p>
+    <div class="formula">
+      \[\frac{dy}{dx} = g(x)\cdot h(y)
+      \;\Longrightarrow\;
+      \frac{1}{h(y)}\,dy = g(x)\,dx
+      \;\Longrightarrow\;
+      \int \frac{1}{h(y)}\,dy = \int g(x)\,dx\]
+    </div>
+
+    <div class="esempio">
+      <p class="esempio-label">Esempio 1</p>
+      <p>\(y' = 4xy^2\)</p>
+      <ul class="steps">
+        <li>\(\dfrac{1}{y^2}\,dy = 4x\,dx\)</li>
+        <li>\(\displaystyle\int \frac{1}{y^2}\,dy = \int 4x\,dx
+          \;\Rightarrow\; -\frac{1}{y} = 2x^2 + C\)</li>
+      </ul>
+      <div class="result">\[y = -\dfrac{1}{2x^2 + C}\]</div>
+    </div>
+
+    <div class="esempio">
+      <p class="esempio-label">Esempio 2 — con condizione iniziale</p>
+      <p>\(y' = 6x\,e^{x^2} - 1\), &ensp; \(y(0) = 4\)</p>
+      <ul class="steps">
+        <li>\(\displaystyle\int dy = \int \!\bigl(6x\,e^{x^2} - 1\bigr)\,dx\)</li>
+        <li>\(y = 3\displaystyle\int\! 2x\,e^{x^2}\,dx - x = 3e^{x^2} - x + C\)</li>
+        <li>Condizione iniziale: \(4 = 3e^0 - 0 + C \;\Rightarrow\; C = 1\)</li>
+      </ul>
+      <div class="result">\[y = 3e^{x^2} - x + 1\]</div>
+    </div>
+
+    <div class="esempio">
+      <p class="esempio-label">Esempio 3 — integrazione per parti</p>
+      <p>\(e^x y' - x = 0\), &ensp; \(y(1) = \dfrac{1}{e}\)</p>
+      <ul class="steps">
+        <li>\(y' = \dfrac{x}{e^x} = x\,e^{-x}\)</li>
+        <li>
+          Integrazione per parti \(\bigl(u = x,\; dv = e^{-x}dx\bigr)\):
+          \[y = \int x\,e^{-x}\,dx = -x\,e^{-x} - e^{-x} + C = -\frac{x+1}{e^x} + C\]
+        </li>
+        <li>
+          Condizione: \(\;\dfrac{1}{e} = -\dfrac{2}{e} + C \;\Rightarrow\; C = \dfrac{3}{e}\)
+        </li>
+      </ul>
+      <div class="result">\[y = -\frac{x+1}{e^x} + \frac{3}{e}\]</div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       SEZIONE 4 — LINEARI DEL PRIMO ORDINE
+  ════════════════════════════════════════ -->
+  <section id="lineari">
+    <p class="sec-num red">Sezione 4</p>
+    <h2 class="red">Equazioni Lineari del Primo Ordine</h2>
+
+    <div class="def red">
+      <strong>Forma generale:</strong>
+      \[y' = a(x)\,y + b(x)\]
+      È <em>lineare</em> perché \(y\) ha potenza 1. Le funzioni \(a(x)\) e \(b(x)\) sono
+      <strong>continue</strong> nell&rsquo;intervallo in cui si sta lavorando.
+    </div>
+
+    <!-- ─────── OMOGENEE ─────── -->
+    <h3 id="omogenee">A &mdash; Omogenee &nbsp;(senza termine noto)</h3>
+
+    <div class="def">
+      Se \(b(x) = 0\), l&rsquo;equazione diventa \(y' = a(x)\,y\) &mdash;
+      un&rsquo;equazione <strong>a variabili separabili</strong>.
+    </div>
+
+    <div class="esempio">
+      <p class="esempio-label">Esempio — Omogenea</p>
+      <p>
+        \(y' = \ln x \cdot y\), &ensp;
+        con \(a(x) = \ln x,\; b(x) = 0\)
+      </p>
+      <ul class="steps">
+        <li>\(\dfrac{1}{y}\,dy = \ln x\,dx\)</li>
+        <li>\(\displaystyle\int \frac{1}{y}\,dy = \int \ln x\,dx\)</li>
+        <li>
+          \(\ln|y| = x\ln x - x + C\)
+          &ensp; <span class="note">\(\bigl(\int \ln x\,dx = x\ln x - x\bigr)\)</span>
+        </li>
+        <li>
+          \(y = e^{x\ln x - x + C} = e^C \cdot e^{x\ln x} \cdot e^{-x}\)
+        </li>
+      </ul>
+      <div class="result">
+        \[y = k\, e^{x(\ln|x|-1)} = k\,x^x\,e^{-x} \quad (k = e^C)\]
+      </div>
+    </div>
+
+    <!-- ─────── COMPLETE ─────── -->
+    <h3 id="complete">B &mdash; Complete &nbsp;(con termine noto)</h3>
+
+    <div class="def">
+      Se \(b(x) \neq 0\). Si calcola la primitiva di \(a(x)\):
+      \[A(x) = \int a(x)\,dx \qquad \text{(posta } c = 0\text{)}\]
+    </div>
+
+    <h3>Derivazione della formula risolutiva</h3>
+    <ul class="steps">
+      <li>Moltiplicare per \(e^{-A(x)}\):
+        \[e^{-A(x)}\bigl(y' - a(x)y\bigr) = b(x)\,e^{-A(x)}\]
+      </li>
+      <li>Poiché \(-A'(x) = -a(x)\), si ha \(\;D\!\bigl(e^{-A(x)}\bigr) = -a(x)\,e^{-A(x)}\), quindi:
+        \[e^{-A(x)}y' + D\!\bigl(e^{-A(x)}\bigr)\,y = D\!\bigl(e^{-A(x)}\,y\bigr)\]
+      </li>
+      <li>
+        \[D\!\bigl(e^{-A(x)}\,y\bigr) = b(x)\,e^{-A(x)}\]
+      </li>
+      <li>
+        Integrando entrambi i membri:
+        \[e^{-A(x)}\,y = \int b(x)\,e^{-A(x)}\,dx\]
+      </li>
+    </ul>
+
+    <div class="formula-box">
+      <strong>Formula risolutiva</strong>
+      \[y = e^{A(x)}\!\left[\int b(x)\,e^{-A(x)}\,dx + C\right]\]
+    </div>
+
+    <div class="esempio">
+      <p class="esempio-label">Esempio — Equazione Completa</p>
+      <p>
+        \(y' + \dfrac{y}{x} = x\), &ensp; \(x > 0\)
+        &emsp; &rarr; &emsp; \(a(x) = -\dfrac{1}{x},\quad b(x) = x\)
+      </p>
+      <ul class="steps">
+        <li>
+          \(A(x) = \displaystyle\int -\frac{1}{x}\,dx = -\ln x\)
+        </li>
+        <li>
+          \(e^{-A(x)} = e^{\ln x} = x\)
+        </li>
+        <li>
+          Moltiplicare l&rsquo;equazione per \(x\):
+          \[xy' + y = x^2\]
+        </li>
+        <li>
+          Si riconosce la derivata di un prodotto:
+          \[D(x\,y) = x^2\]
+        </li>
+        <li>
+          Integrare:
+          \[x\,y = \int x^2\,dx = \frac{x^3}{3} + C\]
+        </li>
+      </ul>
+      <div class="result">
+        \[y = \frac{x^2}{3} + \frac{C}{x}\]
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       SEZIONE 5 — VERIFICA
+  ════════════════════════════════════════ -->
+  <section id="verifica">
+    <p class="sec-num violet">Sezione 5</p>
+    <h2 class="violet">Verifica di un&rsquo;Equazione Differenziale</h2>
+
+    <p>
+      Per verificare che una funzione soddisfa un&rsquo;equazione differenziale,
+      si calcolano le derivate necessarie, le si sostituiscono nell&rsquo;equazione
+      e si verifica che si ottiene un&rsquo;identità \((0 = 0)\).
+    </p>
+
+    <!-- ESEMPIO 1 — y = lnx/x -->
+    <div class="esempio">
+      <p class="esempio-label">Esempio 1 — Verifica algebrica</p>
+      <p>
+        Verificare che \(\;y = \dfrac{\ln x}{x}\;\) soddisfa l&rsquo;equazione differenziale:
+      </p>
+      <div class="formula">
+        \[x^2\,y'' + x\,y' + \frac{2}{x} = y\]
+      </div>
+
+      <h3>Calcolo delle derivate</h3>
+      <ul class="steps">
+        <li>
+          \(y' = \dfrac{\dfrac{1}{x}\cdot x - \ln x}{x^2} = \dfrac{1 - \ln x}{x^2}\)
+        </li>
+        <li>
+          \(y'' = \dfrac{-\dfrac{1}{x}\cdot x^2 - (1-\ln x)\cdot 2x}{x^4}
+               = \dfrac{-x - 2x + 2x\ln x}{x^4}
+               = \dfrac{2\ln x - 3}{x^3}\)
+        </li>
+      </ul>
+
+      <h3>Sostituzione nell&rsquo;equazione</h3>
+      <ul class="steps">
+        <li>
+          \(x^2 \cdot \dfrac{2\ln x - 3}{x^3} \;+\; x\cdot\dfrac{1 - \ln x}{x^2}
+          \;+\; \dfrac{2}{x}\)
+        </li>
+        <li>
+          \(= \dfrac{2\ln x - 3}{x} + \dfrac{1 - \ln x}{x} + \dfrac{2}{x}\)
+        </li>
+        <li>
+          \(= \dfrac{2\ln x - 3 + 1 - \ln x + 2}{x} = \dfrac{\ln x}{x} = y \quad\checkmark\)
+        </li>
+      </ul>
+      <span class="verified">0 = 0 &nbsp;&rarr;&nbsp; VERIFICA ✓</span>
+    </div>
+
+    <!-- ESEMPIO 2 — Circuito RL -->
+    <div class="esempio">
+      <p class="esempio-label">Esempio 2 — Circuito elettrico (Legge delle Maglie)</p>
+      <p>In un circuito RL, la <strong>Legge delle Maglie</strong> fornisce:</p>
+      <div class="formula">
+        \[\mathcal{E}^0 - L\,i'(t) - R\,i(t) = 0\]
+      </div>
+      <p class="note">
+        Questa è un&rsquo;equazione differenziale: contiene la funzione \(i(t)\) e la sua
+        derivata \(i'(t)\); l&rsquo;incognita è la <em>funzione</em> \(i(t)\).
+      </p>
+
+      <p>
+        Verificare che
+        \(\;i(t) = \dfrac{\mathcal{E}^0}{R}\!\left(1 - e^{-\frac{R}{L}t}\right)\)
+        soddisfa l&rsquo;equazione.
+      </p>
+
+      <h3>Derivata di \(i(t)\)</h3>
+      <ul class="steps">
+        <li>
+          \(i'(t) = \dfrac{\mathcal{E}^0}{R}\cdot\dfrac{R}{L}\cdot e^{-\frac{R}{L}t}
+          = \dfrac{\mathcal{E}^0}{L}\,e^{-\frac{R}{L}t}\)
+        </li>
+      </ul>
+
+      <h3>Sostituzione</h3>
+      <ul class="steps">
+        <li>
+          \(\mathcal{E}^0 \;-\; L\cdot\dfrac{\mathcal{E}^0}{L}\,e^{-\frac{R}{L}t}
+          \;-\; R\cdot\dfrac{\mathcal{E}^0}{R}\!\left(1-e^{-\frac{R}{L}t}\right)\)
+        </li>
+        <li>
+          \(= \mathcal{E}^0 - \mathcal{E}^0\,e^{-\frac{R}{L}t}
+          - \mathcal{E}^0\!\left(1 - e^{-\frac{R}{L}t}\right)\)
+        </li>
+        <li>
+          \(= \mathcal{E}^0\!\left(1 - e^{-\frac{R}{L}t} - 1 + e^{-\frac{R}{L}t}\right) = 0\quad\checkmark\)
+        </li>
+      </ul>
+      <span class="verified">0 = 0 &nbsp;&rarr;&nbsp; VERIFICA ✓</span>
+    </div>
+
+  </section>
+
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "\\[", right: "\\]", display: true  },
+        { left: "\\(", right: "\\)", display: false }
+      ],
+      throwOnError: false
+    });
+  });
+</script>
+</body>
+</html>
