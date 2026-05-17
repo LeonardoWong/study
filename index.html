@@ -5,23 +5,7 @@
     <title>File List</title>
 </head>
 <body>
-    <h1>Files and Directories in /</h1>
-    <ul id="file-list"></ul>
-
-    <script>
-        async function fetchFiles() {
-            const response = await fetch('/api/files');
-            const files = await response.json();
-            const fileList = document.getElementById('file-list');
-
-            files.forEach(file => {
-                const li = document.createElement('li');
-                li.textContent = file;
-                fileList.appendChild(li);
-            });
-        }
-
-        fetchFiles();
-    </script>
+<a href="/eqdiff.html">Equazioni differenziali</a>
+<a href="/dev.html">dev</a>
 </body>
 </html>
