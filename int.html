@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Integrali — Maturità</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@300;400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js"></script>
+<style>
+  :root {
+    --bg: #0e0d0b;
+    --bg2: #141310;
+    --bg3: #1a1916;
+    --ink: #e8e2d4;
+    --ink2: #a89e8a;
+    --ink3: #6b6155;
+    --gold: #c9a84c;
+    --gold2: #e8c96a;
+    --red: #b85c38;
+    --blue: #4a7fa5;
+    --green: #5a8a5a;
+    --border: #2a2720;
+    --border2: #3a352c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  /* NOISE TEXTURE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* SIDEBAR NAV */
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 240px;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    padding: 2rem 0;
+    overflow-y: auto;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-brand {
+    padding: 0 1.5rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1rem;
+  }
+
+  .sidebar-brand .sigma {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem;
+    color: var(--gold);
+    line-height: 1;
+    font-weight: 300;
+    font-style: italic;
+  }
+
+  .sidebar-brand p {
+    font-size: 0.7rem;
+    color: var(--ink3);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-top: 0.3rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .nav-section {
+    padding: 0.25rem 1.5rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    font-family: 'JetBrains Mono', monospace;
+    margin-top: 1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .sidebar a {
+    display: block;
+    padding: 0.35rem 1.5rem;
+    font-size: 0.82rem;
+    color: var(--ink2);
+    text-decoration: none;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.95rem;
+    transition: all 0.15s;
+    border-left: 2px solid transparent;
+    letter-spacing: 0.01em;
+  }
+
+  .sidebar a:hover, .sidebar a.active {
+    color: var(--gold2);
+    border-left-color: var(--gold);
+    background: rgba(201,168,76,0.06);
+    padding-left: 1.8rem;
+  }
+
+  /* MAIN CONTENT */
+  .main {
+    margin-left: 240px;
+    min-height: 100vh;
+  }
+
+  .header {
+    background: linear-gradient(135deg, #0e0d0b 0%, #1a1510 50%, #0e0d0b 100%);
+    border-bottom: 1px solid var(--border2);
+    padding: 5rem 4rem 3.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '∫';
+    position: absolute;
+    right: 3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16rem;
+    color: rgba(201,168,76,0.04);
+    font-weight: 300;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .header-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4.5rem;
+    font-weight: 300;
+    color: var(--ink);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .header h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .header-sub {
+    margin-top: 1rem;
+    color: var(--ink2);
+    font-size: 1.05rem;
+    font-style: italic;
+    max-width: 500px;
+  }
+
+  .header-meta {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .meta-item {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--ink3);
+  }
+
+  .meta-item span {
+    display: block;
+    color: var(--ink2);
+    font-size: 0.85rem;
+    margin-top: 0.2rem;
+  }
+
+  /* CONTENT */
+  .content {
+    padding: 3rem 4rem 6rem;
+    max-width: 900px;
+  }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 4.5rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border2);
+  }
+
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    flex-shrink: 0;
+  }
+
+  .section h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  .section h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem;
+    font-weight: 400;
+    color: var(--gold2);
+    margin: 2rem 0 0.75rem;
+    font-style: italic;
+  }
+
+  p {
+    color: var(--ink2);
+    margin-bottom: 0.9rem;
+    font-size: 1rem;
+  }
+
+  .def-box {
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-left: 3px solid var(--gold);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .def-box .def-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+
+  .def-box p {
+    color: var(--ink);
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .thm-box {
+    background: rgba(74,127,165,0.06);
+    border: 1px solid rgba(74,127,165,0.25);
+    border-left: 3px solid var(--blue);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .thm-box .def-label { color: var(--blue); }
+  .thm-box p { color: var(--ink); margin: 0.3rem 0; }
+
+  .warn-box {
+    background: rgba(184,92,56,0.07);
+    border: 1px solid rgba(184,92,56,0.25);
+    border-left: 3px solid var(--red);
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .warn-box .def-label { color: var(--red); font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .warn-box p { color: var(--ink); margin: 0; }
+
+  /* FORMULA TABLE */
+  .formula-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+  }
+
+  .formula-table thead tr {
+    border-bottom: 1px solid var(--border2);
+  }
+
+  .formula-table th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    padding: 0.5rem 1rem;
+    text-align: left;
+    font-weight: 400;
+  }
+
+  .formula-table td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+
+  .formula-table td:first-child {
+    color: var(--blue);
+    width: 45%;
+  }
+
+  .formula-table td:last-child {
+    color: var(--gold);
+  }
+
+  .formula-table td:nth-child(2) {
+    color: var(--ink3);
+    width: 10%;
+    text-align: center;
+    font-size: 1.2rem;
+  }
+
+  .formula-table tbody tr:hover {
+    background: rgba(255,255,255,0.02);
+  }
+
+  .formula-table tbody tr:last-child td { border-bottom: none; }
+
+  /* FORMULA BLOCK */
+  .formula {
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    padding: 1.2rem 1.8rem;
+    margin: 1.2rem 0;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 1.05rem;
+    overflow-x: auto;
+  }
+
+  .formula.key {
+    border-color: rgba(201,168,76,0.3);
+    background: rgba(201,168,76,0.04);
+  }
+
+  /* EXAMPLE */
+  .example {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 1.2rem 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 4px;
+  }
+
+  .example-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 0.6rem;
+  }
+
+  .example p { color: var(--ink); margin: 0.3rem 0; }
+
+  /* STEPS */
+  .steps {
+    counter-reset: step;
+    list-style: none;
+    margin: 1rem 0;
+  }
+
+  .steps li {
+    counter-increment: step;
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.7rem;
+    color: var(--ink2);
+    font-size: 0.97rem;
+  }
+
+  .steps li::before {
+    content: counter(step);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--gold);
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.2);
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+  }
+
+  /* TWO COL */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.2rem 0;
+  }
+
+  .col-card {
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    padding: 1rem 1.2rem;
+    border-radius: 4px;
+  }
+
+  .col-card .col-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 0.7rem;
+  }
+
+  /* TAG */
+  .tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+
+  .tag-imp { background: rgba(184,92,56,0.15); color: var(--red); border: 1px solid rgba(184,92,56,0.3); }
+  .tag-thm { background: rgba(74,127,165,0.12); color: var(--blue); border: 1px solid rgba(74,127,165,0.25); }
+  .tag-tip { background: rgba(90,138,90,0.12); color: var(--green); border: 1px solid rgba(90,138,90,0.25); }
+
+  /* PROGRESS BAR */
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 240px;
+    right: 0;
+    height: 2px;
+    background: var(--border);
+    z-index: 200;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--gold), var(--gold2));
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg2); }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2rem 0;
+  }
+
+  /* ANIM */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .header { animation: fadeIn 0.7s ease forwards; }
+
+  ul.bullet-list {
+    list-style: none;
+    margin: 0.5rem 0 1rem 0;
+    padding: 0;
+  }
+
+  ul.bullet-list li {
+    padding: 0.25rem 0;
+    color: var(--ink2);
+    font-size: 0.97rem;
+    padding-left: 1.2rem;
+    position: relative;
+  }
+
+  ul.bullet-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-size: 0.8rem;
+  }
+
+  /* CASE TABLE */
+  .case-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin: 1.2rem 0;
+  }
+
+  .case-card {
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    padding: 1rem;
+    border-radius: 4px;
+    text-align: center;
+  }
+
+  .case-card .case-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 0.6rem;
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-left: 240px;
+    padding: 2rem 4rem;
+    border-top: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--ink3);
+    letter-spacing: 0.1em;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  @media (max-width: 900px) {
+    .sidebar { display: none; }
+    .main, .footer { margin-left: 0; }
+    .progress-bar { left: 0; }
+    .header, .content { padding: 2rem; }
+    .two-col, .case-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+
+<nav class="sidebar">
+  <div class="sidebar-brand">
+    <div class="sigma">∫</div>
+    <p>Analisi · Maturità</p>
+  </div>
+  <div class="nav-section">Fondamenti</div>
+  <a href="#primitiva">Primitiva & Tabella</a>
+  <a href="#composti">Integrali Composti</a>
+  <div class="nav-section">Tecniche</div>
+  <a href="#sostituzione">Sostituzione</a>
+  <a href="#parti">Per Parti</a>
+  <a href="#fratte">Funzioni Fratte</a>
+  <div class="nav-section">Integrale Definito</div>
+  <a href="#definito">Definizione & Aree</a>
+  <a href="#tfci">Teorema Fondamentale</a>
+  <a href="#media">Teorema della Media</a>
+  <a href="#integrale-fn">Funzione Integrale</a>
+  <div class="nav-section">Applicazioni</div>
+  <a href="#volumi">Volumi di Rotazione</a>
+  <a href="#improprio">Integrale Improprio</a>
+</nav>
+
+<div class="main">
+
+<header class="header">
+  <div class="header-tag">Analisi Matematica</div>
+  <h1>Gli <em>Integrali</em></h1>
+  <p class="header-sub">Dalla primitiva al teorema fondamentale — tutto ciò che serve per la maturità.</p>
+  <div class="header-meta">
+    <div class="meta-item">ARGOMENTI<span>12 sezioni</span></div>
+    <div class="meta-item">LIVELLO<span>Liceo — V anno</span></div>
+    <div class="meta-item">ESAME<span>Maturità</span></div>
+  </div>
+</header>
+
+<div class="content">
+
+<!-- ===== 1. PRIMITIVA ===== -->
+<section class="section" id="primitiva">
+  <div class="section-header">
+    <div class="section-num">01</div>
+    <h2>Primitiva e Tabella degli Integrali</h2>
+  </div>
+
+  <div class="def-box">
+    <div class="def-label">Definizione — Primitiva</div>
+    <p>\(F(x)\) è una <strong>primitiva</strong> di \(f(x)\) in \([a,b]\) se \(F\) è derivabile in \([a,b]\) e \(F'(x) = f(x)\) per ogni \(x \in [a,b]\).</p>
+  </div>
+
+  <p>L'integrale indefinito raccoglie <em>tutte</em> le primitive di \(f\): differiscono solo per una costante additiva \(c \in \mathbb{R}\).</p>
+
+  <div class="formula key">\[\int f(x)\,dx = F(x) + c\]</div>
+
+  <div class="def-box">
+    <div class="def-label">Linearità dell'integrale</div>
+    <p>\(\displaystyle\int [\alpha\, f(x) + \beta\, g(x)]\,dx = \alpha\int f(x)\,dx + \beta\int g(x)\,dx\)</p>
+  </div>
+
+  <h3>Tavola delle formule fondamentali</h3>
+  <p>Ogni formula di integrazione è il contrario della derivazione corrispondente.</p>
+
+  <table class="formula-table">
+    <thead>
+      <tr><th>Derivata \(F'(x)\)</th><th></th><th>Integrale \(\int f\,dx\)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>\(D[x^n] = nx^{n-1}\)</td><td>↔</td><td>\(\displaystyle\int x^n\,dx = \dfrac{x^{n+1}}{n+1} + c \quad (n \neq -1)\)</td></tr>
+      <tr><td>\(D[e^x] = e^x\)</td><td>↔</td><td>\(\displaystyle\int e^x\,dx = e^x + c\)</td></tr>
+      <tr><td>\(D[\ln|x|] = \dfrac{1}{x}\)</td><td>↔</td><td>\(\displaystyle\int \frac{1}{x}\,dx = \ln|x| + c\)</td></tr>
+      <tr><td>\(D[\sin x] = \cos x\)</td><td>↔</td><td>\(\displaystyle\int \cos x\,dx = \sin x + c\)</td></tr>
+      <tr><td>\(D[\cos x] = -\sin x\)</td><td>↔</td><td>\(\displaystyle\int \sin x\,dx = -\cos x + c\)</td></tr>
+      <tr><td>\(D[\tan x] = \dfrac{1}{\cos^2 x}\)</td><td>↔</td><td>\(\displaystyle\int \frac{1}{\cos^2 x}\,dx = \tan x + c\)</td></tr>
+      <tr><td>\(D[\cot x] = -\dfrac{1}{\sin^2 x}\)</td><td>↔</td><td>\(\displaystyle\int \frac{1}{\sin^2 x}\,dx = -\cot x + c\)</td></tr>
+      <tr><td>\(D[\arctan x] = \dfrac{1}{1+x^2}\)</td><td>↔</td><td>\(\displaystyle\int \frac{1}{1+x^2}\,dx = \arctan x + c\)</td></tr>
+      <tr><td>\(D[\arcsin x] = \dfrac{1}{\sqrt{1-x^2}}\)</td><td>↔</td><td>\(\displaystyle\int \frac{1}{\sqrt{1-x^2}}\,dx = \arcsin x + c\)</td></tr>
+      <tr><td>\(D[a^x] = a^x \ln a\)</td><td>↔</td><td>\(\displaystyle\int a^x\,dx = \frac{a^x}{\ln a} + c \quad (a>0,\,a\neq1)\)</td></tr>
+      <tr><td>\(D[\log_a|x|] = \dfrac{1}{x\ln a}\)</td><td>↔</td><td>\(\displaystyle\int \frac{1}{x}\,dx = \frac{\ln|x|}{\ln a} \cdot \ln a = \ln|x| + c\)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="example">
+    <div class="example-label">Esempio — Polinomio</div>
+    <p>\(\displaystyle\int (3x^2 - 5x^4 + 4x^4 - 3)\,dx = x^3 - \tfrac{5}{4}x^4 + \tfrac{4}{5}x^5 - 3x + c\)</p>
+  </div>
+</section>
+
+<!-- ===== 2. COMPOSTI ===== -->
+<section class="section" id="composti">
+  <div class="section-header">
+    <div class="section-num">02</div>
+    <h2>Integrali Composti</h2>
+  </div>
+
+  <p>Quando l'argomento della funzione è a sua volta una funzione \(g(x)\), si applicano le formule in versione <strong>composta</strong>: basta moltiplicare per la derivata interna \(g'(x)\).</p>
+
+  <div class="def-box">
+    <div class="def-label">Schema generale</div>
+    <p>\(\displaystyle\int [g(x)]^n \cdot g'(x)\,dx = \frac{[g(x)]^{n+1}}{n+1} + c \qquad (n \neq -1)\)</p>
+  </div>
+
+  <table class="formula-table">
+    <thead><tr><th>Forma composta</th><th></th><th>Risultato</th></tr></thead>
+    <tbody>
+      <tr><td>\(\displaystyle\int [g(x)]^n g'(x)\,dx\)</td><td>→</td><td>\(\dfrac{[g(x)]^{n+1}}{n+1}+c\)</td></tr>
+      <tr><td>\(\displaystyle\int e^{g(x)} g'(x)\,dx\)</td><td>→</td><td>\(e^{g(x)}+c\)</td></tr>
+      <tr><td>\(\displaystyle\int \frac{g'(x)}{g(x)}\,dx\)</td><td>→</td><td>\(\ln|g(x)|+c\)</td></tr>
+      <tr><td>\(\displaystyle\int \cos[g(x)]\cdot g'(x)\,dx\)</td><td>→</td><td>\(\sin[g(x)]+c\)</td></tr>
+      <tr><td>\(\displaystyle\int \sin[g(x)]\cdot g'(x)\,dx\)</td><td>→</td><td>\(-\cos[g(x)]+c\)</td></tr>
+      <tr><td>\(\displaystyle\int \frac{g'(x)}{1+[g(x)]^2}\,dx\)</td><td>→</td><td>\(\arctan[g(x)]+c\)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="warn-box">
+    <div class="def-label">Attenzione</div>
+    <p>Se \(g'(x)\) non compare già nell'integrando, occorre <em>aggiustarla</em> moltiplicando e dividendo per la costante opportuna. Non si può aggiustare una \(x\) mancante — in quel caso si usa la sostituzione.</p>
+  </div>
+
+  <h3>Esempi tipici</h3>
+  <div class="example">
+    <div class="example-label">Esempio 1 — Potenza composta</div>
+    <p>\(\displaystyle\int 2x(x^2-1)^5\,dx = \frac{(x^2-1)^6}{6} + c\) &nbsp;[poiché \(D(x^2-1)=2x\)]</p>
+  </div>
+  <div class="example">
+    <div class="example-label">Esempio 2 — Logaritmo composto</div>
+    <p>\(\displaystyle\int \frac{3x^2+4x+1}{x^3+2x^2+x}\,dx = \ln|x^3+2x^2+x| + c\)</p>
+  </div>
+  <div class="example">
+    <div class="example-label">Esempio 3 — Esponenziale composto</div>
+    <p>\(\displaystyle\int 3e^{-3x}\,dx = -e^{-3x} + c\) &nbsp;(con aggiustamento del segno)</p>
+  </div>
+  <div class="example">
+    <div class="example-label">Esempio 4 — Radice al denominatore</div>
+    <p>\(\displaystyle\int \frac{e^{1/x}}{x^2}\,dx = -e^{1/x} + c\) &nbsp;[poiché \(D(x^{-1}) = -x^{-2}\)]</p>
+  </div>
+</section>
+
+<!-- ===== 3. SOSTITUZIONE ===== -->
+<section class="section" id="sostituzione">
+  <div class="section-header">
+    <div class="section-num">03</div>
+    <h2>Integrazione per Sostituzione</h2>
+  </div>
+
+  <p>Quando la funzione composta <em>non</em> presenta il fattore \(g'(x)\) in modo diretto, conviene cambiare variabile introducendo \(t = g(x)\).</p>
+
+  <div class="def-box">
+    <div class="def-label">Metodo</div>
+    <p>Si pone \(x = \varphi(t)\), da cui \(dx = \varphi'(t)\,dt\). Si sostituisce tutto, si integra in \(t\), e infine si ritorna alla variabile \(x\).</p>
+  </div>
+
+  <ol class="steps">
+    <li>Scegliere la sostituzione \(t = g(x)\) o \(x = \varphi(t)\) in modo che l'integrale diventi più semplice.</li>
+    <li>Calcolare il differenziale: \(dt = g'(x)\,dx\) oppure \(dx = \varphi'(t)\,dt\).</li>
+    <li>Sostituire sia la funzione che il differenziale nell'integrale.</li>
+    <li>Integrare rispetto a \(t\).</li>
+    <li>Tornare alla variabile \(x\) sostituendo \(t = g(x)\).</li>
+  </ol>
+
+  <h3>Sostituzioni classiche da ricordare</h3>
+  <div class="two-col">
+    <div class="col-card">
+      <div class="col-title">Presenza di \(\sqrt{x}\)</div>
+      <p style="font-size:0.9rem;color:var(--ink)">Poni \(t = \sqrt{x}\), cioè \(x = t^2\), \(dx = 2t\,dt\)</p>
+    </div>
+    <div class="col-card">
+      <div class="col-title">Presenza di \(\sqrt{ax+b}\)</div>
+      <p style="font-size:0.9rem;color:var(--ink)">Poni \(t = \sqrt{ax+b}\), \(x = \frac{t^2-b}{a}\), \(dx = \frac{2t}{a}\,dt\)</p>
+    </div>
+    <div class="col-card">
+      <div class="col-title">Presenza di \(e^x\)</div>
+      <p style="font-size:0.9rem;color:var(--ink)">Poni \(t = e^x\), \(x = \ln t\), \(dx = \frac{1}{t}\,dt\)</p>
+    </div>
+    <div class="col-card">
+      <div class="col-title">Presenza di \(\ln x\)</div>
+      <p style="font-size:0.9rem;color:var(--ink)">Poni \(t = \ln x\), \(x = e^t\), \(dx = e^t\,dt\)</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="example-label">Esempio — \(\int \frac{1}{1+\sqrt{x}}\,dx\)</div>
+    <p>Pongo \(t = \sqrt{x}\), \(x = t^2\), \(dx = 2t\,dt\):</p>
+    <p>\(\displaystyle\int \frac{2t}{1+t}\,dt = 2\int \frac{t+1-1}{1+t}\,dt = 2\int\!\left(1 - \frac{1}{1+t}\right)dt = 2t - 2\ln|1+t| + c = 2\sqrt{x} - \ln(1+\sqrt{x})^2 + c\)</p>
+  </div>
+
+  <div class="example">
+    <div class="example-label">Esempio — \(\int \frac{1}{e^x + e^{-x}}\,dx\)</div>
+    <p>Pongo \(t = e^x\), \(dx = \frac{1}{t}\,dt\):</p>
+    <p>\(\displaystyle\int \frac{1}{t+\frac{1}{t}}\cdot\frac{1}{t}\,dt = \int\frac{1}{t^2+1}\,dt = \arctan t + c = \arctan(e^x) + c\)</p>
+  </div>
+</section>
+
+<!-- ===== 4. PER PARTI ===== -->
+<section class="section" id="parti">
+  <div class="section-header">
+    <div class="section-num">04</div>
+    <h2>Integrazione per Parti</h2>
+  </div>
+
+  <p>Deriva dalla regola del prodotto per le derivate: si usa quando l'integrando è un prodotto di due funzioni di tipo diverso.</p>
+
+  <div class="formula key">
+    \[\int f(x)\,g'(x)\,dx = f(x)\,g(x) - \int f'(x)\,g(x)\,dx\]
+  </div>
+
+  <div class="def-box">
+    <div class="def-label">Regola pratica — ILATE</div>
+    <p>Scegli \(f(x)\) (da derivare) seguendo l'ordine di priorità: <strong>I</strong>nversa trigonometrica → <strong>L</strong>ogaritmica → <strong>A</strong>lgebrica (polinomio) → <strong>T</strong>rigonometrica → <strong>E</strong>sponenziale. <br>La funzione \(g'(x)\) è quella rimanente (da integrare).</p>
+  </div>
+
+  <h3>Esempi fondamentali</h3>
+
+  <div class="example">
+    <div class="example-label">Esempio 1 — \(\int x\ln x\,dx\)</div>
+    <p>\(f(x) = \ln x\) (logaritmica, ha priorità), \(g'(x) = x \Rightarrow g(x) = \frac{x^2}{2}\)</p>
+    <p>\(\displaystyle = \frac{x^2}{2}\ln x - \int \frac{x^2}{2}\cdot\frac{1}{x}\,dx = \frac{x^2}{2}\ln x - \frac{x^2}{4} + c = \frac{x^2}{4}(2\ln x - 1) + c\)</p>
+  </div>
+
+  <div class="example">
+    <div class="example-label">Esempio 2 — \(\int x\sin x\,dx\)</div>
+    <p>\(f(x) = x\), \(g'(x) = \sin x \Rightarrow g(x) = -\cos x\)</p>
+    <p>\(\displaystyle = -x\cos x + \int \cos x\,dx = -x\cos x + \sin x + c\)</p>
+  </div>
+
+  <div class="example">
+    <div class="example-label">Esempio 3 — \(\int x^2 e^x\,dx\) (doppia applicazione)</div>
+    <p>\(\displaystyle = x^2 e^x - 2\int xe^x\,dx = x^2 e^x - 2\left(xe^x - e^x\right) + c = e^x(x^2 - 2x + 2) + c\)</p>
+  </div>
+
+  <div class="example">
+    <div class="example-label">Esempio 4 — \(\int \sin^2 x\,dx\) (integrale ciclico)</div>
+    <p>Integro per parti due volte: l'integrale compare da entrambi i lati e si risolve algebricamente.</p>
+    <p>\(\displaystyle\int\sin^2 x\,dx = -\sin x\cos x + \int\cos^2 x\,dx = -\sin x\cos x + \int(1-\sin^2 x)\,dx\)</p>
+    <p>\(\displaystyle 2\int\sin^2 x\,dx = x - \sin x\cos x \implies \int\sin^2 x\,dx = \frac{x - \sin x\cos x}{2} + c\)</p>
+  </div>
+
+  <div class="example">
+    <div class="example-label">Esempio 5 — \(\int \ln x\,dx\)</div>
+    <p>\(f(x) = \ln x\), \(g'(x) = 1 \Rightarrow g(x) = x\)</p>
+    <p>\(\displaystyle = x\ln x - \int x\cdot\frac{1}{x}\,dx = x\ln x - x + c = x(\ln x - 1) + c\)</p>
+  </div>
+</section>
+
+<!-- ===== 5. FUNZIONI FRATTE ===== -->
+<section class="section" id="fratte">
+  <div class="section-header">
+    <div class="section-num">05</div>
+    <h2>Funzioni Fratte</h2>
+  </div>
+
+  <p>L'integrale di una funzione razionale \(\frac{P(x)}{Q(x)}\) si affronta con tecniche diverse a seconda dei gradi di \(P\) e \(Q\) e della fattorizzazione del denominatore.</p>
+
+  <h3>Caso 1 — Grado numeratore ≥ grado denominatore</h3>
+  <p>Si esegue prima la <strong>divisione polinomiale</strong> e si integra il risultato.</p>
+
+  <div class="example">
+    <div class="example-label">Esempio</div>
+    <p>\(\displaystyle\int \frac{x^3+2x^2+x+1}{x^2+1}\,dx\)</p>
+    <p>Divisione: \(\frac{x^3+2x^2+x+1}{x^2+1} = x+2 - \frac{1}{x^2+1}\)</p>
+    <p>\(\displaystyle = \frac{x^2}{2} + 2x - \arctan x + c\)</p>
+  </div>
+
+  <h3>Caso 2 — Grado numeratore &lt; grado denominatore, \(\Delta > 0\)</h3>
+  <p>Il denominatore si fattorizza in radici reali distinte → si usano i <strong>fratti parziali</strong>.</p>
+
+  <div class="def-box">
+    <div class="def-label">Decomposizione in fratti semplici</div>
+    <p>\(\displaystyle\frac{P(x)}{(x-a)(x-b)} = \frac{A}{x-a} + \frac{B}{x-b}\)</p>
+    <p>Si determinano \(A,B\) uguagliando i numeratori e risolvendo il sistema.</p>
+  </div>
+
+  <div class="example">
+    <div class="example-label">Esempio — \(\int \frac{5x-1}{x^2-x-2}\,dx\)</div>
+    <p>\(x^2-x-2=(x-2)(x+1)\) &nbsp;→&nbsp; \(\frac{5x-1}{(x-2)(x+1)} = \frac{3}{x-2}+\frac{2}{x+1}\)</p>
+    <p>\(\displaystyle = 3\ln|x-2| + 2\ln|x+1| + c = \ln|(x-2)^3(x+1)^2| + c\)</p>
+  </div>
+
+  <h3>Caso 3 — \(\Delta = 0\) (radice doppia)</h3>
+  <div class="def-box">
+    <div class="def-label">Decomposizione con radice doppia</div>
+    <p>\(\displaystyle\frac{P(x)}{(x-a)^2} = \frac{A}{x-a} + \frac{B}{(x-a)^2}\)</p>
+  </div>
+
+  <div class="example">
+    <div class="example-label">Esempio — \(\int \frac{2x-3}{(x-2)^2}\,dx\)</div>
+    <p>\(\frac{2x-3}{(x-2)^2} = \frac{2}{x-2} + \frac{1}{(x-2)^2}\)</p>
+    <p>\(\displaystyle = 2\ln|x-2| - \frac{1}{x-2} + c\)</p>
+  </div>
+
+  <h3>Caso 4 — \(\Delta < 0\) (nessuna radice reale)</h3>
+  <p>Il denominatore quadratico si porta nella forma \((x+p)^2 + q^2\) e si usano arcotangente e logaritmo.</p>
+
+  <div class="example">
+    <div class="example-label">Esempio — \(\int \frac{1}{x^2+2x+2}\,dx\)</div>
+    <p>\(x^2+2x+2 = (x+1)^2+1\)</p>
+    <p>\(\displaystyle = \arctan(x+1) + c\)</p>
+  </div>
+
+  <h3>Denominatori di grado &gt; 2</h3>
+  <div class="two-col">
+    <div class="col-card">
+      <div class="col-title">Completamente fattorizzabili</div>
+      <p style="font-size:0.85rem;color:var(--ink)">\(\displaystyle\frac{x-1}{(x-2)^3} \to \frac{A}{x-2}+\frac{B}{(x-2)^2}+\frac{C}{(x-2)^3}\)</p>
+    </div>
+    <div class="col-card">
+      <div class="col-title">Con fattore irriducibile</div>
+      <p style="font-size:0.85rem;color:var(--ink)">\(\displaystyle\frac{x-3}{(x+2)(x^2+1)} \to \frac{A}{x+2}+\frac{Bx+C}{x^2+1}\)</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 6. INTEGRALE DEFINITO ===== -->
+<section class="section" id="definito">
+  <div class="section-header">
+    <div class="section-num">06</div>
+    <h2>Integrale Definito e Calcolo delle Aree</h2>
+  </div>
+
+  <div class="def-box">
+    <div class="def-label">Definizione — Integrale di Riemann</div>
+    <p>Data \(f\) continua in \([a,b]\), si divide l'intervallo in \(n\) parti uguali di ampiezza \(\Delta x = \frac{b-a}{n}\). Si costruiscono somme di rettangoli con altezza pari al minimo (\(A_1\)) e al massimo (\(A_2\)) su ogni sotto-intervallo:</p>
+    <p>\(\displaystyle A_1 = \Delta x \sum_{i=1}^n m_i \leq A_{tot} \leq A_2 = \Delta x \sum_{i=1}^n M_i\)</p>
+  </div>
+
+  <div class="thm-box">
+    <div class="def-label">Teorema dei Carabinieri (per gli integrali)</div>
+    <p>\(A_1 \leq A_{tot} \leq A_2\) e, per il <strong>Teorema di Weierstrass</strong> e dei <strong>valori intermedi</strong>:</p>
+    <p>\(\displaystyle\lim_{\Delta x \to 0} A_1 = \lim_{\Delta x \to 0} A_2 = \int_a^b f(x)\,dx\)</p>
+  </div>
+
+  <h3>Proprietà dell'integrale definito</h3>
+  <ul class="bullet-list">
+    <li>\(\displaystyle\int_a^a f(x)\,dx = 0\)</li>
+    <li>\(\displaystyle\int_a^b f\,dx = -\int_b^a f\,dx\)</li>
+    <li>\(\displaystyle\int_a^b [f+g]\,dx = \int_a^b f\,dx + \int_a^b g\,dx\)</li>
+    <li>\(\displaystyle\int_a^b f\,dx = \int_a^c f\,dx + \int_c^b f\,dx \qquad (a<c<b)\)</li>
+    <li>Se \(f(x) \geq 0\) in \([a,b]\) allora \(\int_a^b f\,dx \geq 0\)</li>
+  </ul>
+
+  <h3>Calcolo di Aree</h3>
+
+  <div class="warn-box">
+    <div class="def-label">Attenzione al segno</div>
+    <p>L'area è sempre positiva. Se \(f(x) < 0\) su parte dell'intervallo, l'integrale definito può essere negativo: l'area si calcola come \(A = \left|\int_a^b f(x)\,dx\right|\) oppure spezzando l'intervallo.</p>
+  </div>
+
+  <div class="def-box">
+    <div class="def-label">Area tra due curve</div>
+    <p>Se \(f(x) \geq g(x)\) in \([a,b]\):&nbsp; \(\displaystyle A = \int_a^b [f(x) - g(x)]\,dx\)</p>
+  </div>
+
+  <p>Se la funzione cambia segno in \(c \in (a,b)\) con \(f(c)=0\):</p>
+  <div class="formula">\[A = \left|\int_a^c f(x)\,dx\right| + \left|\int_c^b f(x)\,dx\right|\]</div>
+
+  <div class="example">
+    <div class="example-label">Esempio — Area di \(\sin x\) in \([0, 2\pi]\)</div>
+    <p>\(\displaystyle\int_0^{2\pi}\sin x\,dx = 0\) (le aree si cancellano)</p>
+    <p>Area effettiva: \(\displaystyle A = \int_0^\pi \sin x\,dx + \left|\int_\pi^{2\pi}\sin x\,dx\right| = 2 + 2 = 4\)</p>
+  </div>
+</section>
+
+<!-- ===== 7. TEOREMA FONDAMENTALE ===== -->
+<section class="section" id="tfci">
+  <div class="section-header">
+    <div class="section-num">07</div>
+    <h2>Teorema Fondamentale del Calcolo Integrale</h2>
+  </div>
+
+  <div class="thm-box">
+    <div class="def-label">Teorema Fondamentale — Enunciato</div>
+    <p>Se \(f\) è continua in \([a,b]\) e \(F\) è una sua primitiva, allora:</p>
+    <p>\(\displaystyle\int_a^b f(x)\,dx = F(b) - F(a) =: \Big[F(x)\Big]_a^b\)</p>
+  </div>
+
+  <ol class="steps">
+    <li>Calcolare la famiglia di primitive \(F(x)\) dell'integrando (l'integrale indefinito).</li>
+    <li>Valutare \(F(b)\) e \(F(a)\).</li>
+    <li>Calcolare la differenza \(F(b) - F(a)\). La costante \(c\) si annulla.</li>
+  </ol>
+
+  <div class="example">
+    <div class="example-label">Esempio</div>
+    <p>\(\displaystyle\int_1^2 x^2\,dt = \left[\frac{x^3}{3}\right]_1^2 = \frac{8}{3} - \frac{1}{3} = \frac{7}{3}\)</p>
+  </div>
+
+  <h3>Integrazione per parti con estremi</h3>
+  <div class="formula">\[\int_a^b f(x)g'(x)\,dx = \Big[f(x)g(x)\Big]_a^b - \int_a^b f'(x)g(x)\,dx\]</div>
+
+  <h3>Sostituzione nell'integrale definito</h3>
+  <div class="def-box">
+    <div class="def-label">Cambio di variabile — estremi</div>
+    <p>Con la sostituzione \(x = \varphi(t)\) occorre anche <em>cambiare gli estremi</em>: se \(x=a \Rightarrow t = \varphi^{-1}(a)\), se \(x=b \Rightarrow t = \varphi^{-1}(b)\). Non si torna alla variabile originale.</p>
+  </div>
+</section>
+
+<!-- ===== 8. TEOREMA DELLA MEDIA ===== -->
+<section class="section" id="media">
+  <div class="section-header">
+    <div class="section-num">08</div>
+    <h2>Teorema della Media Integrale</h2>
+  </div>
+
+  <div class="thm-box">
+    <div class="def-label">Teorema della Media</div>
+    <p>Se \(f\) è continua in \([a,b]\), allora esiste almeno un punto \(c \in (a,b)\) tale che:</p>
+    <p>\(\displaystyle f(c) = \frac{1}{b-a}\int_a^b f(x)\,dx\)</p>
+  </div>
+
+  <p>Il valore \(\displaystyle\mu = \frac{1}{b-a}\int_a^b f(x)\,dx\) si chiama <strong>valor medio</strong> (o media integrale) di \(f\) su \([a,b]\). Geometricamente, è l'altezza del rettangolo con base \([a,b]\) che ha la stessa area della regione sotto il grafico di \(f\).</p>
+
+  <div class="def-box">
+    <div class="def-label">Dimostrazione (schema)</div>
+    <p>Per il Teorema di Weierstrass esistono \(m = \min f\) e \(M = \max f\) in \([a,b]\). Integrando la disuguaglianza \(m \leq f(x) \leq M\) su \([a,b]\):</p>
+    <p>\(\displaystyle m(b-a) \leq \int_a^b f\,dx \leq M(b-a) \implies m \leq \frac{\int_a^b f\,dx}{b-a} \leq M\)</p>
+    <p>Per il Teorema dei valori intermedi, \(f\) assume quel valore in qualche \(c \in (a,b)\).</p>
+  </div>
+
+  <div class="example">
+    <div class="example-label">Esempio — Verificare il teorema per \(y = \ln(x+3)\) su \([-2,0]\)</div>
+    <p>\(\displaystyle\int_{-2}^0 \ln(x+3)\,dx = \Big[x\ln(x+3)\Big]_{-2}^0 - \int_{-2}^0\frac{x}{x+3}\,dx = -2\ln 1 - (0) - \int_{-2}^0\!\left(1-\frac{3}{x+3}\right)\!dx\)</p>
+    <p>\(\displaystyle = 3\ln 3 - 2\)</p>
+    <p>Valor medio: \(\mu = \frac{3\ln 3-2}{2}\). Si trova \(c\) da \(\ln(c+3) = \mu\).</p>
+  </div>
+</section>
+
+<!-- ===== 9. FUNZIONE INTEGRALE ===== -->
+<section class="section" id="integrale-fn">
+  <div class="section-header">
+    <div class="section-num">09</div>
+    <h2>Funzione Integrale</h2>
+  </div>
+
+  <div class="def-box">
+    <div class="def-label">Definizione</div>
+    <p>\(\displaystyle G(x) = \int_a^x f(t)\,dt\)</p>
+    <p>Si usa \(t\) (variabile muta) per non confondere con l'estremo superiore variabile \(x\).</p>
+  </div>
+
+  <div class="thm-box">
+    <div class="def-label">Derivata della funzione integrale</div>
+    <p>Se \(f\) è continua, allora \(G'(x) = f(x)\). In altri termini: derivare l'integrale rispetto all'estremo superiore restituisce l'integrando valutato in quel punto.</p>
+    <p>\(\textbf{Caso con funzione composta:}\quad\) se \(\displaystyle G(x) = \int_a^{g(x)} f(t)\,dt\) allora \(G'(x) = f(g(x))\cdot g'(x)\)</p>
+  </div>
+
+  <div class="example">
+    <div class="example-label">Esempi</div>
+    <p>\(\displaystyle G(x) = \int_2^x e^t\,dt \implies G'(x) = e^x\)</p>
+    <p>\(\displaystyle G(x) = \int_2^x t\,dt \implies G'(x) = x\)</p>
+    <p>\(\displaystyle G(x) = \int_2^{3x} h(t)\,dt \implies G'(x) = h(3x)\cdot 3\)</p>
+  </div>
+
+  <p>Lo studio della funzione integrale (monotonia, concavità, ecc.) si fa studiando \(G'(x) = f(x)\) e \(G''(x) = f'(x)\), esattamente come per qualsiasi altra funzione.</p>
+</section>
+
+<!-- ===== 10. VOLUMI ===== -->
+<section class="section" id="volumi">
+  <div class="section-header">
+    <div class="section-num">10</div>
+    <h2>Volumi di Rotazione</h2>
+  </div>
+
+  <p>Ruotando il grafico di \(f(x)\) attorno ad un asse si genera un <strong>solido di rotazione</strong>. Il volume si calcola integrando le aree delle sezioni circolari.</p>
+
+  <div class="two-col">
+    <div class="col-card">
+      <div class="col-title">Rotazione attorno all'asse x</div>
+      <p style="color:var(--ink);font-size:0.9rem">Ogni sezione è un cerchio di raggio \(f(x)\) e area \(\pi [f(x)]^2\):</p>
+      <div class="formula">\[V = \pi\int_a^b [f(x)]^2\,dx\]</div>
+    </div>
+    <div class="col-card">
+      <div class="col-title">Rotazione attorno all'asse y</div>
+      <p style="color:var(--ink);font-size:0.9rem">Si inverte la funzione: \(x = f(y)\). Ogni sezione ha raggio \(f(y)\):</p>
+      <div class="formula">\[V = \pi\int_a^b [f(y)]^2\,dy\]</div>
+    </div>
+  </div>
+
+  <div class="warn-box">
+    <div class="def-label">Invertibilità</div>
+    <p>Per ruotare attorno all'asse \(y\), la funzione deve essere invertibile nell'intervallo considerato. Verificare che il dominio garantisca la biettività.</p>
+  </div>
+
+  <h3>Metodo dei gusci cilindrici</h3>
+  <p>Alternativa alla rotazione attorno all'asse \(y\) senza dover invertire la funzione:</p>
+  <div class="formula">\[V = 2\pi\int_a^b x\,f(x)\,dx\]</div>
+  <p>Ogni guscio cilindrico ha raggio \(x\), altezza \(f(x)\) e spessore \(dx\).</p>
+
+  <div class="example">
+    <div class="example-label">Esempio — \(y = x^2\) ruotata attorno all'asse \(y\), \(y \in [1,4]\)</div>
+    <p>Funzione inversa: \(x = \sqrt{y}\), quindi \([f(y)]^2 = y\)</p>
+    <p>\(\displaystyle V = \pi\int_1^4 y\,dy = \pi\left[\frac{y^2}{2}\right]_1^4 = \pi\left(\frac{16}{2} - \frac{1}{2}\right) = \frac{15\pi}{2}\)</p>
+  </div>
+</section>
+
+<!-- ===== 11. IMPROPRIO ===== -->
+<section class="section" id="improprio">
+  <div class="section-header">
+    <div class="section-num">11</div>
+    <h2>Integrale Improprio</h2>
+  </div>
+
+  <p>Si parla di integrale improprio quando la funzione ha una <strong>discontinuità</strong> nell'intervallo oppure quando uno o entrambi gli <strong>estremi di integrazione sono infiniti</strong>.</p>
+
+  <div class="case-grid">
+    <div class="case-card">
+      <div class="case-title">Estremo infinito</div>
+      <p style="font-size:0.85rem;color:var(--ink)">\(\displaystyle\int_a^{+\infty} f\,dx = \lim_{c\to+\infty}\int_a^c f\,dx\)</p>
+    </div>
+    <div class="case-card">
+      <div class="case-title">Discontinuità in b</div>
+      <p style="font-size:0.85rem;color:var(--ink)">\(\displaystyle\int_a^b f\,dx = \lim_{c\to b^-}\int_a^c f\,dx\)</p>
+    </div>
+    <div class="case-card">
+      <div class="case-title">Discontinuità interna</div>
+      <p style="font-size:0.85rem;color:var(--ink)">\(\displaystyle\int_a^b = \int_a^{x_0} + \int_{x_0}^b\)</p>
+      <p style="font-size:0.75rem;color:var(--ink3)">(con doppio limite)</p>
+    </div>
+  </div>
+
+  <div class="def-box">
+    <div class="def-label">Convergenza e Divergenza</div>
+    <p>Se il limite esiste finito → l'integrale <strong>converge</strong>.</p>
+    <p>Se il limite è \(\pm\infty\) o non esiste → l'integrale <strong>diverge</strong>.</p>
+  </div>
+
+  <div class="example">
+    <div class="example-label">Esempio 1 — Discontinuità in 0: \(\int_{-2}^{0}\frac{1}{\sqrt{-x}}\,dx\)</div>
+    <p>Discontinuità di 2ª specie in \(x=0\). Prendo \(c \in (-2,0)\), \(c \to 0^-\):</p>
+    <p>\(\displaystyle\lim_{c\to 0^-}\int_{-2}^c (-x)^{-1/2}\,dx = \lim_{c\to 0^-}\left[-2\sqrt{-x}\right]_{-2}^c = \lim_{c\to 0^-}\left(-2\sqrt{-c}+2\sqrt{2}\right) = 2\sqrt{2}\)</p>
+    <p>→ Converge a \(2\sqrt{2}\).</p>
+  </div>
+
+  <div class="example">
+    <div class="example-label">Esempio 2 — Estremo infinito: \(\int_1^{+\infty}\frac{1}{x^2}\,dx\)</div>
+    <p>\(\displaystyle\lim_{c\to+\infty}\left[-\frac{1}{x}\right]_1^c = \lim_{c\to+\infty}\left(-\frac{1}{c}+1\right) = 1\)</p>
+    <p>→ Converge a \(1\).</p>
+  </div>
+
+  <div class="thm-box">
+    <div class="def-label">Regola pratica — \(\int_1^{+\infty}\frac{1}{x^\alpha}\,dx\)</div>
+    <p>Converge se e solo se \(\alpha > 1\). Diverge per \(\alpha \leq 1\).</p>
+  </div>
+</section>
+
+</div><!-- /content -->
+
+<footer class="footer">
+  <span>INTEGRALI — ANALISI MATEMATICA</span>
+  <span>Maturità · Liceo Scientifico</span>
+</footer>
+
+</div><!-- /main -->
+
+<script>
+// Progress bar
+window.addEventListener('scroll', () => {
+  const scrollTop = document.documentElement.scrollTop;
+  const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const progress = (scrollTop / docHeight) * 100;
+  document.getElementById('progress').style.width = progress + '%';
+});
+
+// Intersection observer for section animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.section').forEach(s => observer.observe(s));
+
+// Active nav link
+const sections = document.querySelectorAll('.section');
+const navLinks = document.querySelectorAll('.sidebar a');
+
+const navObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const id = e.target.getAttribute('id');
+      const link = document.querySelector(`.sidebar a[href="#${id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { threshold: 0.4 });
+
+sections.forEach(s => navObserver.observe(s));
+</script>
+</body>
+</html>
