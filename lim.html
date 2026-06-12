@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Limiti — Esame di Stato 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js"></script>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --ink-2: #3d3d3d;
+    --ink-3: #666;
+    --paper: #faf9f7;
+    --surface: #f2f0ec;
+    --border: rgba(0,0,0,0.12);
+    --border-strong: rgba(0,0,0,0.22);
+    --accent: #c0392b;
+    --accent-light: #fdf0ef;
+    --blue: #1a4f8a;
+    --blue-light: #eef3fa;
+    --green: #1d6b3f;
+    --green-light: #edf6f1;
+    --amber: #7a4f00;
+    --amber-light: #fdf6e3;
+    --purple: #4a2780;
+    --purple-light: #f3effe;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Georgia', 'Times New Roman', serif;
+    line-height: 1.75;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+  }
+
+  /* HEADER */
+  header {
+    border-bottom: 2px solid var(--ink);
+    padding: 3.5rem 0 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .eyebrow {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+  h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 0.75rem;
+  }
+  header p {
+    font-size: 1rem;
+    color: var(--ink-3);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  /* NAV PILL INDEX */
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 3rem;
+  }
+  nav a {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+    text-decoration: none;
+    color: var(--ink-2);
+    border: 0.5px solid var(--border-strong);
+    padding: 5px 14px;
+    border-radius: 99px;
+    transition: background 0.15s, color 0.15s;
+  }
+  nav a:hover { background: var(--surface); }
+
+  /* SECTIONS */
+  section { margin-bottom: 3.5rem; }
+  section + section { border-top: 0.5px solid var(--border); padding-top: 3rem; }
+
+  h2 {
+    font-size: 1.55rem;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.25rem;
+    color: var(--ink);
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  h2 .num {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+  h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin: 1.75rem 0 0.6rem;
+    color: var(--ink);
+  }
+  p { margin-bottom: 0.9rem; color: var(--ink-2); font-size: 0.97rem; }
+  ul, ol { padding-left: 1.4rem; margin-bottom: 1rem; color: var(--ink-2); font-size: 0.97rem; }
+  li { margin-bottom: 0.35rem; }
+
+  /* FORMULA BLOCKS */
+  .formula {
+    background: var(--surface);
+    border-left: 3px solid var(--accent);
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0;
+    border-radius: 0 6px 6px 0;
+    overflow-x: auto;
+  }
+  .formula.blue { border-left-color: var(--blue); background: var(--blue-light); }
+  .formula.green { border-left-color: var(--green); background: var(--green-light); }
+  .formula.amber { border-left-color: var(--amber); background: var(--amber-light); }
+  .formula.purple { border-left-color: var(--purple); background: var(--purple-light); }
+
+  /* CARD GRID */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin: 1.25rem 0;
+  }
+  .card {
+    background: var(--surface);
+    border: 0.5px solid var(--border-strong);
+    border-radius: 8px;
+    padding: 1rem 1.1rem;
+  }
+  .card .card-label {
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 0.5rem;
+  }
+  .card.danger { border-color: var(--accent); background: var(--accent-light); }
+  .card.blue { border-color: var(--blue); background: var(--blue-light); }
+  .card.green { border-color: var(--green); background: var(--green-light); }
+  .card.amber { border-color: var(--amber); background: var(--amber-light); }
+  .card.purple { border-color: var(--purple); background: var(--purple-light); }
+
+  /* TABELLA FORME INDETERMINATE */
+  .table-wrap { overflow-x: auto; margin: 1.25rem 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.88rem;
+  }
+  th {
+    background: var(--surface);
+    text-align: left;
+    padding: 9px 14px;
+    border-bottom: 1.5px solid var(--border-strong);
+    font-weight: 600;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  td {
+    padding: 9px 14px;
+    border-bottom: 0.5px solid var(--border);
+    color: var(--ink-2);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface); }
+
+  /* ALERT BOXES */
+  .alert {
+    border: 0.5px solid var(--border-strong);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.9rem;
+  }
+  .alert-title {
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 0.45rem;
+    color: var(--ink);
+  }
+  .alert.warn { border-color: var(--amber); background: var(--amber-light); }
+  .alert.tip { border-color: var(--green); background: var(--green-light); }
+  .alert.note { border-color: var(--blue); background: var(--blue-light); }
+
+  /* ESERCIZI */
+  .esercizio {
+    background: var(--surface);
+    border: 0.5px solid var(--border-strong);
+    border-radius: 8px;
+    padding: 1.1rem 1.25rem;
+    margin: 1rem 0;
+    cursor: pointer;
+    position: relative;
+  }
+  .esercizio summary {
+    list-style: none;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.93rem;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--ink);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .esercizio summary::after {
+    content: '▸';
+    font-size: 0.8rem;
+    color: var(--ink-3);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+    margin-left: 8px;
+  }
+  .esercizio[open] summary::after { transform: rotate(90deg); }
+  .esercizio summary::-webkit-details-marker { display: none; }
+  .esercizio .sol {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 0.5px solid var(--border);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.9rem;
+    color: var(--ink-2);
+    line-height: 1.65;
+  }
+  .sol-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 0.5rem;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 0.5px solid var(--border);
+    padding-top: 1.5rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.8rem;
+    color: var(--ink-3);
+    text-align: center;
+  }
+
+  /* MathJax adjustments */
+  mjx-container { overflow-x: auto; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Analisi Matematica · Esame di Stato 2026</div>
+  <h1>Teoria dei Limiti</h1>
+  <p>Definizioni, algebra dei limiti, forme indeterminate e limiti notevoli</p>
+</header>
+
+<nav>
+  <a href="#definizione">Definizione</a>
+  <a href="#algebra">Algebra</a>
+  <a href="#indeterminate">Forme indeterminate</a>
+  <a href="#notevoli">Limiti notevoli</a>
+  <a href="#continua">Continuità</a>
+  <a href="#esercizi">Esercizi</a>
+</nav>
+
+
+<!-- 1. DEFINIZIONE -->
+<section id="definizione">
+  <h2><span class="num">01</span> Definizione di limite</h2>
+
+  <h3>Definizione intuitiva</h3>
+  <p>Si dice che \(f(x)\) tende al valore \(L\) quando \(x\) tende a \(x_0\) se, avvicinandosi \(x\) a \(x_0\) (senza mai raggiungerlo), i valori di \(f(x)\) si avvicinano arbitrariamente a \(L\).</p>
+
+  <div class="formula">
+    \[\lim_{x \to x_0} f(x) = L\]
+  </div>
+
+  <h3>Definizione formale (ε-δ)</h3>
+  <p>Per ogni \(\varepsilon > 0\) esiste \(\delta > 0\) tale che:</p>
+  <div class="formula">
+    \[0 < |x - x_0| < \delta \implies |f(x) - L| < \varepsilon\]
+  </div>
+
+  <h3>Limiti da sinistra e da destra</h3>
+  <div class="card-grid">
+    <div class="card blue">
+      <div class="card-label">Limite sinistro</div>
+      \[\lim_{x \to x_0^-} f(x) = L^-\]
+      <p style="font-size:0.85rem; margin-top:0.5rem;">\(x\) si avvicina a \(x_0\) da valori inferiori</p>
+    </div>
+    <div class="card blue">
+      <div class="card-label">Limite destro</div>
+      \[\lim_{x \to x_0^+} f(x) = L^+\]
+      <p style="font-size:0.85rem; margin-top:0.5rem;">\(x\) si avvicina a \(x_0\) da valori superiori</p>
+    </div>
+  </div>
+
+  <div class="alert note">
+    <div class="alert-title">Condizione di esistenza</div>
+    Il limite \(\lim_{x \to x_0} f(x) = L\) esiste se e solo se i limiti destro e sinistro esistono e sono uguali: \(L^- = L^+ = L\).
+  </div>
+
+  <h3>Limiti all'infinito e limiti infiniti</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Notazione</th><th>Significato</th></tr>
+      <tr><td>\(\lim_{x \to +\infty} f(x) = L\)</td><td>Al crescere di \(x\), \(f(x) \to L\)</td></tr>
+      <tr><td>\(\lim_{x \to x_0} f(x) = +\infty\)</td><td>\(f(x)\) cresce illimitatamente vicino a \(x_0\)</td></tr>
+      <tr><td>\(\lim_{x \to +\infty} f(x) = +\infty\)</td><td>\(f(x)\) diverge positivamente all'infinito</td></tr>
+    </table>
+  </div>
+</section>
+
+
+<!-- 2. ALGEBRA DEI LIMITI -->
+<section id="algebra">
+  <h2><span class="num">02</span> Algebra dei limiti</h2>
+  <p>Se \(\lim_{x \to x_0} f(x) = L\) e \(\lim_{x \to x_0} g(x) = M\) (con \(L, M \in \mathbb{R}\)), valgono le seguenti proprietà:</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-label">Somma / Differenza</div>
+      \[\lim (f \pm g) = L \pm M\]
+    </div>
+    <div class="card">
+      <div class="card-label">Prodotto</div>
+      \[\lim (f \cdot g) = L \cdot M\]
+    </div>
+    <div class="card">
+      <div class="card-label">Quoziente</div>
+      \[\lim \frac{f}{g} = \frac{L}{M} \quad (M \neq 0)\]
+    </div>
+    <div class="card">
+      <div class="card-label">Potenza / Radice</div>
+      \[\lim f^n = L^n, \quad \lim \sqrt[n]{f} = \sqrt[n]{L}\]
+    </div>
+  </div>
+
+  <h3>Limiti con l'infinito (casi non indeterminati)</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Operazione</th><th>Risultato</th><th>Note</th></tr>
+      <tr><td>\(L + \infty\)</td><td>\(+\infty\)</td><td>\(L \in \mathbb{R}\)</td></tr>
+      <tr><td>\(L \cdot (+\infty)\)</td><td>\(+\infty\) se \(L > 0\), \(-\infty\) se \(L < 0\)</td><td>\(L \neq 0\)</td></tr>
+      <tr><td>\(\infty \cdot \infty\)</td><td>\(+\infty\)</td><td></td></tr>
+      <tr><td>\(\dfrac{L}{\infty}\)</td><td>\(0\)</td><td>\(L \in \mathbb{R}\)</td></tr>
+      <tr><td>\(\dfrac{L}{0^+}\)</td><td>\(+\infty\) se \(L > 0\)</td><td>attenzione al segno</td></tr>
+      <tr><td>\(\infty^n\)</td><td>\(+\infty\)</td><td>\(n > 0\)</td></tr>
+    </table>
+  </div>
+
+  <h3>Teorema del confronto (dei carabinieri)</h3>
+  <p>Se \(g(x) \leq f(x) \leq h(x)\) in un intorno di \(x_0\) e \(\lim g(x) = \lim h(x) = L\), allora:</p>
+  <div class="formula green">
+    \[\lim_{x \to x_0} f(x) = L\]
+  </div>
+
+  <h3>Gerarchia degli infiniti</h3>
+  <p>Per \(x \to +\infty\), gli infiniti crescono nell'ordine seguente:</p>
+  <div class="formula amber">
+    \[\log_a x \ll x^\alpha \ll a^x \ll x! \ll x^x \qquad (\alpha > 0,\; a > 1)\]
+  </div>
+  <p>Questo significa, ad esempio, che \(\lim_{x \to +\infty} \dfrac{x^{100}}{e^x} = 0\).</p>
+</section>
+
+
+<!-- 3. FORME INDETERMINATE -->
+<section id="indeterminate">
+  <h2><span class="num">03</span> Forme indeterminate</h2>
+  <p>Si chiamano <em>forme indeterminate</em> quelle espressioni il cui limite non si può determinare direttamente con l'algebra. Esistono 7 forme fondamentali:</p>
+
+  <div class="card-grid">
+    <div class="card danger"><div class="card-label">Tipo 1</div>\[\frac{\infty}{\infty}\]</div>
+    <div class="card danger"><div class="card-label">Tipo 2</div>\[\frac{0}{0}\]</div>
+    <div class="card danger"><div class="card-label">Tipo 3</div>\[0 \cdot \infty\]</div>
+    <div class="card danger"><div class="card-label">Tipo 4</div>\[\infty - \infty\]</div>
+    <div class="card danger"><div class="card-label">Tipo 5</div>\[1^{\infty}\]</div>
+    <div class="card danger"><div class="card-label">Tipo 6</div>\[0^0\]</div>
+    <div class="card danger"><div class="card-label">Tipo 7</div>\[\infty^0\]</div>
+  </div>
+
+  <h3>Tecniche di risoluzione</h3>
+
+  <div style="margin-bottom: 1.5rem;">
+    <h3>① Raccoglimento (polinomi e razionali)</h3>
+    <p>Per \(\dfrac{\infty}{\infty}\) con polinomi: raccogliere il termine di grado massimo al numeratore e al denominatore.</p>
+    <div class="formula">
+      \[\lim_{x \to \infty} \frac{3x^3 - 2x + 1}{5x^3 + x^2} = \lim_{x \to \infty} \frac{x^3(3 - \frac{2}{x^2} + \frac{1}{x^3})}{x^3(5 + \frac{1}{x})} = \frac{3}{5}\]
+    </div>
+    <div class="alert note">
+      <div class="alert-title">Regola rapida per razionali</div>
+      Confronta solo i gradi di numeratore (n) e denominatore (m):
+      <ul style="margin-top: 0.4rem;">
+        <li>Se \(n < m\): limite = 0</li>
+        <li>Se \(n = m\): limite = rapporto dei coefficienti direttivi</li>
+        <li>Se \(n > m\): limite = \(\pm\infty\)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-bottom: 1.5rem;">
+    <h3>② Fattorizzazione (forma \(0/0\))</h3>
+    <p>Fattorizzare e semplificare il fattore che si annulla.</p>
+    <div class="formula">
+      \[\lim_{x \to 2} \frac{x^2 - 4}{x - 2} = \lim_{x \to 2} \frac{(x-2)(x+2)}{x-2} = \lim_{x \to 2}(x+2) = 4\]
+    </div>
+  </div>
+
+  <div style="margin-bottom: 1.5rem;">
+    <h3>③ Razionalizzazione</h3>
+    <p>Moltiplicare per il coniugato quando compaiono radici.</p>
+    <div class="formula">
+      \[\lim_{x \to 0} \frac{\sqrt{x+1} - 1}{x} = \lim_{x \to 0} \frac{(\sqrt{x+1}-1)(\sqrt{x+1}+1)}{x(\sqrt{x+1}+1)} = \lim_{x \to 0} \frac{x}{x(\sqrt{x+1}+1)} = \frac{1}{2}\]
+    </div>
+  </div>
+
+  <div style="margin-bottom: 1.5rem;">
+    <h3>④ Forma \(\infty - \infty\)</h3>
+    <p>Raccogliere o razionalizzare per ricondursi a una forma trattabile.</p>
+    <div class="formula">
+      \[\lim_{x \to +\infty} (\sqrt{x^2 + x} - x) = \lim_{x \to +\infty} \frac{x}{\sqrt{x^2+x}+x} = \lim_{x \to +\infty} \frac{1}{\sqrt{1+\frac{1}{x}}+1} = \frac{1}{2}\]
+    </div>
+  </div>
+
+  <div style="margin-bottom: 1.5rem;">
+    <h3>⑤ Forma \(1^\infty\), \(0^0\), \(\infty^0\)</h3>
+    <p>Usare la scrittura \(f(x)^{g(x)} = e^{g(x)\ln f(x)}\) e calcolare il limite dell'esponente.</p>
+    <div class="formula purple">
+      \[\lim_{x \to x_0} f(x)^{g(x)} = e^{\lim_{x \to x_0} g(x) \cdot \ln f(x)}\]
+    </div>
+  </div>
+
+  <div class="alert warn">
+    <div class="alert-title">Attenzione comune all'esame</div>
+    La forma \(\dfrac{0}{0}\) con funzioni trigonometriche si risolve quasi sempre con i limiti notevoli — non con la fattorizzazione.
+  </div>
+</section>
+
+
+<!-- 4. LIMITI NOTEVOLI -->
+<section id="notevoli">
+  <h2><span class="num">04</span> Limiti notevoli</h2>
+  <p>I limiti notevoli sono risultati fondamentali da memorizzare. Quasi tutti derivano dalla definizione di derivata o da sviluppi in serie.</p>
+
+  <h3>Limiti trigonometrici</h3>
+  <div class="formula green">
+    \[\lim_{x \to 0} \frac{\sin x}{x} = 1 \qquad \lim_{x \to 0} \frac{\tan x}{x} = 1 \qquad \lim_{x \to 0} \frac{1 - \cos x}{x^2} = \frac{1}{2}\]
+  </div>
+  <div class="alert tip">
+    <div class="alert-title">Come si usano</div>
+    Se vedi \(\dfrac{\sin(\alpha x)}{\beta x}\), moltiplica e dividi per \(\alpha\): il risultato è \(\dfrac{\alpha}{\beta}\). Ad esempio: \(\lim_{x \to 0} \dfrac{\sin 3x}{2x} = \dfrac{3}{2}\).
+  </div>
+
+  <h3>Numero di Nepero <em>e</em></h3>
+  <div class="formula blue">
+    \[\lim_{x \to +\infty} \left(1 + \frac{1}{x}\right)^x = e \qquad \lim_{x \to 0} (1 + x)^{1/x} = e\]
+  </div>
+  <p>Forma generalizzata: se \(\lim \alpha(x) = 0\), allora \(\lim (1 + \alpha(x))^{1/\alpha(x)} = e\).</p>
+
+  <h3>Limiti esponenziali e logaritmici</h3>
+  <div class="formula amber">
+    \[\lim_{x \to 0} \frac{e^x - 1}{x} = 1 \qquad \lim_{x \to 0} \frac{\ln(1+x)}{x} = 1\]
+  </div>
+  <div class="formula amber">
+    \[\lim_{x \to 0} \frac{a^x - 1}{x} = \ln a \qquad \lim_{x \to 0} \frac{\log_a(1+x)}{x} = \frac{1}{\ln a}\]
+  </div>
+
+  <h3>Limite delle potenze</h3>
+  <div class="formula">
+    \[\lim_{x \to 0} \frac{(1+x)^\alpha - 1}{x} = \alpha \qquad (\alpha \in \mathbb{R})\]
+  </div>
+
+  <h3>Gerarchia degli infinitesimi (per \(x \to 0\))</h3>
+  <p>I seguenti infinitesimi sono tutti equivalenti a \(x\) (o ad un multiplo di \(x\)):</p>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Funzione</th><th>Equivalente infinitesimo</th></tr>
+      <tr><td>\(\sin x\)</td><td>\(\sim x\)</td></tr>
+      <tr><td>\(\tan x\)</td><td>\(\sim x\)</td></tr>
+      <tr><td>\(e^x - 1\)</td><td>\(\sim x\)</td></tr>
+      <tr><td>\(\ln(1+x)\)</td><td>\(\sim x\)</td></tr>
+      <tr><td>\((1+x)^\alpha - 1\)</td><td>\(\sim \alpha x\)</td></tr>
+      <tr><td>\(1 - \cos x\)</td><td>\(\sim \dfrac{x^2}{2}\)</td></tr>
+      <tr><td>\(\arcsin x\)</td><td>\(\sim x\)</td></tr>
+      <tr><td>\(\arctan x\)</td><td>\(\sim x\)</td></tr>
+    </table>
+  </div>
+  <div class="alert note">
+    <div class="alert-title">Sostituzione di infinitesimi equivalenti</div>
+    Se \(f \sim g\) per \(x \to x_0\), allora \(\lim \dfrac{f \cdot h}{k} = \lim \dfrac{g \cdot h}{k}\). Si può sostituire solo in prodotti e quozienti, <strong>non in somme algebriche</strong>.
+  </div>
+</section>
+
+
+<!-- 5. CONTINUITÀ -->
+<section id="continua">
+  <h2><span class="num">05</span> Continuità e discontinuità</h2>
+
+  <h3>Definizione</h3>
+  <p>Una funzione \(f\) è <em>continua</em> in \(x_0\) se:</p>
+  <div class="formula">
+    \[\lim_{x \to x_0} f(x) = f(x_0)\]
+  </div>
+  <p>Ossia: il limite esiste, la funzione è definita in \(x_0\), e il limite coincide con il valore della funzione.</p>
+
+  <h3>Tipi di discontinuità</h3>
+  <div class="card-grid">
+    <div class="card danger">
+      <div class="card-label">1ª specie (salto)</div>
+      <p style="font-size:0.85rem; margin-top:0.4rem;">Esistono i limiti destro e sinistro ma sono diversi: \(L^- \neq L^+\)</p>
+    </div>
+    <div class="card amber">
+      <div class="card-label">2ª specie</div>
+      <p style="font-size:0.85rem; margin-top:0.4rem;">Almeno uno dei limiti laterali è infinito o non esiste</p>
+    </div>
+    <div class="card blue">
+      <div class="card-label">3ª specie (eliminabile)</div>
+      <p style="font-size:0.85rem; margin-top:0.4rem;">Il limite esiste ma \(\lim f(x) \neq f(x_0)\) (o \(f\) non è definita in \(x_0\))</p>
+    </div>
+  </div>
+
+  <h3>Teoremi fondamentali sulle funzioni continue</h3>
+  <div class="card-grid">
+    <div class="card green">
+      <div class="card-label">Teorema di Weierstrass</div>
+      <p style="font-size:0.85rem; margin-top:0.4rem;">Una funzione continua su \([a,b]\) raggiunge il suo massimo e il suo minimo assoluto.</p>
+    </div>
+    <div class="card green">
+      <div class="card-label">Teorema degli zeri</div>
+      <p style="font-size:0.85rem; margin-top:0.4rem;">Se \(f\) è continua su \([a,b]\) e \(f(a)\cdot f(b) < 0\), allora esiste \(c \in (a,b)\) con \(f(c) = 0\).</p>
+    </div>
+    <div class="card green">
+      <div class="card-label">Teorema dei valori intermedi</div>
+      <p style="font-size:0.85rem; margin-top:0.4rem;">Una funzione continua su \([a,b]\) assume tutti i valori compresi tra \(f(a)\) e \(f(b)\).</p>
+    </div>
+  </div>
+
+  <h3>Asintoti</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Tipo</th><th>Condizione</th><th>Equazione</th></tr>
+      <tr>
+        <td>Verticale \(x = x_0\)</td>
+        <td>\(\lim_{x \to x_0^\pm} f(x) = \pm\infty\)</td>
+        <td>\(x = x_0\)</td>
+      </tr>
+      <tr>
+        <td>Orizzontale</td>
+        <td>\(\lim_{x \to \pm\infty} f(x) = L\)</td>
+        <td>\(y = L\)</td>
+      </tr>
+      <tr>
+        <td>Obliquo \(y = mx + q\)</td>
+        <td>\(m = \lim_{x\to\infty}\dfrac{f(x)}{x}\), poi \(q = \lim_{x\to\infty}[f(x)-mx]\)</td>
+        <td>\(y = mx + q\)</td>
+      </tr>
+    </table>
+  </div>
+  <div class="alert note">
+    <div class="alert-title">Asintoto obliquo</div>
+    L'asintoto obliquo esiste solo se \(m \neq 0\) e \(m, q \in \mathbb{R}\). Se \(m = 0\) si ricade nell'asintoto orizzontale.
+  </div>
+</section>
+
+
+<!-- 6. ESERCIZI -->
+<section id="esercizi">
+  <h2><span class="num">06</span> Esercizi guidati</h2>
+  <p>Apri ogni esercizio per vedere la soluzione dettagliata.</p>
+
+  <details class="esercizio">
+    <summary>Calcola \(\displaystyle\lim_{x \to 3} \frac{x^2 - 9}{x - 3}\)</summary>
+    <div class="sol">
+      <div class="sol-label">Soluzione</div>
+      Forma indeterminata \(\tfrac{0}{0}\). Fattorizziamo il numeratore:<br><br>
+      \[\frac{x^2 - 9}{x - 3} = \frac{(x-3)(x+3)}{x-3} = x + 3\]
+      Quindi: \(\lim_{x \to 3}(x+3) = \mathbf{6}\)
+    </div>
+  </details>
+
+  <details class="esercizio">
+    <summary>Calcola \(\displaystyle\lim_{x \to +\infty} \frac{2x^3 - x + 5}{4x^3 + 7x^2}\)</summary>
+    <div class="sol">
+      <div class="sol-label">Soluzione</div>
+      Forma \(\tfrac{\infty}{\infty}\). Numeratore e denominatore hanno grado 3. Raccogliamo \(x^3\):<br><br>
+      \[\frac{x^3(2 - \frac{1}{x^2} + \frac{5}{x^3})}{x^3(4 + \frac{7}{x})} \to \frac{2}{4} = \mathbf{\dfrac{1}{2}}\]
+    </div>
+  </details>
+
+  <details class="esercizio">
+    <summary>Calcola \(\displaystyle\lim_{x \to 0} \frac{\sin 5x}{3x}\)</summary>
+    <div class="sol">
+      <div class="sol-label">Soluzione</div>
+      Usiamo il limite notevole \(\lim_{t \to 0} \tfrac{\sin t}{t} = 1\):<br><br>
+      \[\frac{\sin 5x}{3x} = \frac{5}{3} \cdot \frac{\sin 5x}{5x} \xrightarrow{x \to 0} \frac{5}{3} \cdot 1 = \mathbf{\dfrac{5}{3}}\]
+    </div>
+  </details>
+
+  <details class="esercizio">
+    <summary>Calcola \(\displaystyle\lim_{x \to +\infty} \left(1 + \frac{3}{x}\right)^{x}\)</summary>
+    <div class="sol">
+      <div class="sol-label">Soluzione</div>
+      Forma \(1^\infty\). Riscriviamo sfruttando il limite notevole di \(e\):<br><br>
+      \[\left(1 + \frac{3}{x}\right)^x = \left[\left(1 + \frac{3}{x}\right)^{x/3}\right]^3 \to e^3\]
+      poiché per \(x \to +\infty\) si ha \(\tfrac{x}{3} \to +\infty\) e \(\tfrac{3}{x} \to 0\). Risultato: \(\mathbf{e^3}\).
+    </div>
+  </details>
+
+  <details class="esercizio">
+    <summary>Calcola \(\displaystyle\lim_{x \to 0} \frac{e^{2x} - 1}{\sin 3x}\)</summary>
+    <div class="sol">
+      <div class="sol-label">Soluzione</div>
+      Usiamo gli infinitesimi equivalenti: \(e^{2x} - 1 \sim 2x\) e \(\sin 3x \sim 3x\) per \(x \to 0\).<br><br>
+      \[\frac{e^{2x} - 1}{\sin 3x} \sim \frac{2x}{3x} = \mathbf{\dfrac{2}{3}}\]
+    </div>
+  </details>
+
+  <details class="esercizio">
+    <summary>Calcola \(\displaystyle\lim_{x \to +\infty} (\sqrt{x^2 + 3x} - x)\)</summary>
+    <div class="sol">
+      <div class="sol-label">Soluzione</div>
+      Forma \(\infty - \infty\). Moltiplichiamo per il coniugato:<br><br>
+      \[\frac{(\sqrt{x^2+3x}-x)(\sqrt{x^2+3x}+x)}{\sqrt{x^2+3x}+x} = \frac{3x}{\sqrt{x^2+3x}+x}\]
+      Dividiamo per \(x\) (con \(x > 0\), \(\sqrt{x^2}/x = 1\)):<br><br>
+      \[= \frac{3}{\sqrt{1+\frac{3}{x}}+1} \to \frac{3}{\sqrt{1}+1} = \mathbf{\dfrac{3}{2}}\]
+    </div>
+  </details>
+
+  <details class="esercizio">
+    <summary>Trova l'asintoto obliquo di \(f(x) = \dfrac{x^2 + 2x - 1}{x + 1}\)</summary>
+    <div class="sol">
+      <div class="sol-label">Soluzione</div>
+      Calcoliamo \(m\) e \(q\):<br><br>
+      \[m = \lim_{x \to \infty} \frac{x^2+2x-1}{x(x+1)} = \lim_{x \to \infty} \frac{x^2+2x-1}{x^2+x} = 1\]
+      \[q = \lim_{x \to \infty} \left(\frac{x^2+2x-1}{x+1} - x\right) = \lim_{x \to \infty} \frac{x-1}{x+1} = 1\]
+      Asintoto: \(\mathbf{y = x + 1}\). (Si verifica anche con la divisione polinomiale.)
+    </div>
+  </details>
+</section>
+
+<footer>
+  Liceo Scientifico · Classe 4R · IIS Tommaso Salvini, Roma — Esame di Stato 2026
+</footer>
+
+</body>
+</html>
