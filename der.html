@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Derivate — Maturità</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(','\\)'], ['$','$']], displayMath: [['\\[','\\]'], ['$$','$$']] },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+  :root {
+    --bg: #f8f8fc;
+    --surface: #ffffff;
+    --surface2: #f2f2f7;
+    --border: #e0e0ea;
+    --accent: #6d28d9;
+    --accent2: #4c1d95;
+    --text: #18181b;
+    --muted: #6b6b80;
+    --tag-bg: #ede9fe;
+    --tag-text: #5b21b6;
+    --table-head: #f4f4f8;
+    --highlight: #ede9fe;
+    --green: #059669;
+    --amber: #b45309;
+    --red: #dc2626;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* ── SIDEBAR ── */
+  nav {
+    width: 240px;
+    min-width: 240px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 32px 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  .nav-logo {
+    padding: 0 24px 28px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+
+  .nav-logo .symbol {
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 4px;
+    font-style: italic;
+  }
+
+  .nav-logo .context {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .nav-group {
+    padding: 0 24px 20px;
+  }
+
+  .nav-group-label {
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .nav-group a {
+    display: block;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    padding: 4px 0;
+    transition: color .15s;
+  }
+
+  .nav-group a:hover { color: var(--text); }
+
+  /* ── MAIN ── */
+  main {
+    flex: 1;
+    padding: 56px 64px 80px;
+    max-width: 860px;
+  }
+
+  /* hero */
+  .hero {
+    margin-bottom: 64px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .hero h1 {
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -.02em;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero p {
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 520px;
+    margin-bottom: 24px;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .meta-item { font-size: 12px; }
+  .meta-item .label {
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-size: 10px;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  /* sections */
+  .section {
+    margin-bottom: 72px;
+    scroll-margin-top: 32px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-number {
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: .06em;
+    min-width: 24px;
+  }
+
+  .section h2 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -.01em;
+  }
+
+  .section h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 28px 0 12px;
+    color: var(--text);
+    letter-spacing: -.01em;
+  }
+
+  .section p { color: var(--muted); margin-bottom: 12px; }
+  .section p strong { color: var(--text); font-weight: 600; }
+
+  /* callouts */
+  .callout {
+    background: var(--surface2);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+
+  .callout.green { border-color: var(--green); }
+  .callout.amber { border-color: var(--amber); }
+  .callout.red   { border-color: var(--red); }
+
+  .callout-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .callout.green .callout-title { color: var(--green); }
+  .callout.amber .callout-title { color: var(--amber); }
+  .callout.red   .callout-title { color: var(--red); }
+
+  .callout p { color: var(--text); margin: 0; font-size: 14px; }
+
+  /* formula block */
+  .formula {
+    background: var(--highlight);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin: 16px 0;
+    overflow-x: auto;
+  }
+
+  /* tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    margin: 16px 0;
+  }
+
+  th {
+    background: var(--table-head);
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: middle;
+  }
+
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface2); }
+
+  td.center, th.center { text-align: center; }
+
+  /* examples */
+  .example {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 12px 0;
+  }
+
+  .example-title {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .example p { color: var(--text); margin: 0; font-size: 14px; }
+
+  /* list */
+  .section ol, .section ul {
+    padding-left: 20px;
+    color: var(--muted);
+    margin: 10px 0;
+  }
+
+  .section ol li, .section ul li {
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+
+  /* badge */
+  .badge {
+    display: inline-block;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-right: 6px;
+  }
+
+  /* footer */
+  footer {
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+    margin-top: 40px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  @media (max-width: 768px) {
+    body { flex-direction: column; }
+    nav { width: 100%; height: auto; position: static; padding: 20px 0; }
+    main { padding: 32px 20px 60px; }
+    .hero h1 { font-size: 30px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <span class="symbol">f ′</span>
+    <span class="context">Analisi · Maturità</span>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Fondamenti</div>
+    <a href="#definizione">Definizione & Rapporto Incrementale</a>
+    <a href="#tabella">Derivate Elementari</a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Regole di Derivazione</div>
+    <a href="#regole">Somma, Prodotto, Quoziente</a>
+    <a href="#composta">Funzione Composta</a>
+    <a href="#inversa">Funzione Inversa</a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Applicazioni</div>
+    <a href="#studio">Studio di Funzione</a>
+    <a href="#hopital">Teorema di De L'Hôpital</a>
+    <a href="#taylor">Formula di Taylor</a>
+    <a href="#teoremi">Teoremi (Rolle, Lagrange)</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">Analisi Matematica</div>
+    <h1>Le <em>Derivate</em></h1>
+    <p>Dal rapporto incrementale allo studio completo di funzione — tutto ciò che serve per la maturità.</p>
+    <div class="hero-meta">
+      <div class="meta-item"><span class="label">Argomenti</span>8 sezioni</div>
+      <div class="meta-item"><span class="label">Livello</span>Liceo — V anno</div>
+      <div class="meta-item"><span class="label">Esame</span>Maturità</div>
+    </div>
+  </div>
+
+  <!-- 01 -->
+  <div class="section" id="definizione">
+    <div class="section-header">
+      <span class="section-number">01</span>
+      <h2>Definizione e Rapporto Incrementale</h2>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">Definizione — Derivata in un punto</div>
+      <p>La <strong>derivata</strong> di \(f\) nel punto \(x_0\) è il limite del rapporto incrementale, se esiste finito:</p>
+    </div>
+
+    <div class="formula">
+      \[f'(x_0) = \lim_{h \to 0} \frac{f(x_0 + h) - f(x_0)}{h}\]
+    </div>
+
+    <p>Il rapporto \(\dfrac{f(x_0+h)-f(x_0)}{h}\) è il <strong>rapporto incrementale</strong> di \(f\) in \(x_0\) con incremento \(h\). Geometricamente rappresenta il coefficiente angolare della retta secante tra i punti \((x_0,\, f(x_0))\) e \((x_0+h,\, f(x_0+h))\).</p>
+
+    <p>Quando \(h \to 0\), la secante tende alla <strong>retta tangente</strong> nel punto — e il suo coefficiente angolare è proprio \(f'(x_0)\).</p>
+
+    <h3>Derivabilità e Continuità</h3>
+
+    <div class="callout green">
+      <div class="callout-title">Teorema</div>
+      <p>Se \(f\) è derivabile in \(x_0\), allora è continua in \(x_0\). Il viceversa <em>non</em> vale.</p>
+    </div>
+
+    <p><strong>Controesempio classico:</strong> \(f(x) = |x|\) è continua in \(0\) ma non derivabile (limite destro \(=+1\), limite sinistro \(=-1\)).</p>
+
+    <h3>Derivate Laterali</h3>
+    <div class="formula">
+      \[f'_+(x_0) = \lim_{h \to 0^+} \frac{f(x_0+h)-f(x_0)}{h}, \qquad f'_-(x_0) = \lim_{h \to 0^-} \frac{f(x_0+h)-f(x_0)}{h}\]
+    </div>
+    <p>\(f\) è derivabile in \(x_0\) se e solo se \(f'_+(x_0) = f'_-(x_0)\).</p>
+
+    <h3>Punti di Non Derivabilità</h3>
+    <table>
+      <thead>
+        <tr><th>Tipo</th><th>Caratteristica</th><th>Esempio</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Punto angoloso</strong></td><td>\(f'_+ \neq f'_-\), entrambi finiti</td><td>\(|x|\) in \(x=0\)</td></tr>
+        <tr><td><strong>Cuspide</strong></td><td>Derivate laterali \(\to \pm\infty\) con segni opposti</td><td>\(\sqrt[3]{x^2}\) in \(x=0\)</td></tr>
+        <tr><td><strong>Tangente verticale</strong></td><td>Derivate laterali \(\to +\infty\) (o \(-\infty\)) entrambe</td><td>\(\sqrt[3]{x}\) in \(x=0\)</td></tr>
+      </tbody>
+    </table>
+
+    <div class="example">
+      <div class="example-title">Esempio — Derivata di \(x^2\) in \(x_0=3\) per definizione</div>
+      <p>\(\displaystyle f'(3) = \lim_{h\to 0}\frac{(3+h)^2 - 9}{h} = \lim_{h\to 0}\frac{9+6h+h^2-9}{h} = \lim_{h\to 0}(6+h) = 6\)</p>
+    </div>
+  </div>
+
+  <!-- 02 -->
+  <div class="section" id="tabella">
+    <div class="section-header">
+      <span class="section-number">02</span>
+      <h2>Tavola delle Derivate Elementari</h2>
+    </div>
+
+    <p>Ogni formula va memorizzata. Le derivate di funzioni composte si ottengono moltiplicando per la derivata interna (vedi §04).</p>
+
+    <table>
+      <thead>
+        <tr><th>Funzione \(f(x)\)</th><th class="center">→</th><th>Derivata \(f'(x)\)</th><th>Condizioni</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>\(c\) (costante)</td><td class="center">→</td><td>\(0\)</td><td></td></tr>
+        <tr><td>\(x^n\)</td><td class="center">→</td><td>\(n\,x^{n-1}\)</td><td>\(n \in \mathbb{R}\)</td></tr>
+        <tr><td>\(\sqrt{x}\)</td><td class="center">→</td><td>\(\dfrac{1}{2\sqrt{x}}\)</td><td>\(x > 0\)</td></tr>
+        <tr><td>\(\dfrac{1}{x}\)</td><td class="center">→</td><td>\(-\dfrac{1}{x^2}\)</td><td>\(x \neq 0\)</td></tr>
+        <tr><td>\(e^x\)</td><td class="center">→</td><td>\(e^x\)</td><td></td></tr>
+        <tr><td>\(a^x\)</td><td class="center">→</td><td>\(a^x \ln a\)</td><td>\(a>0,\,a\neq1\)</td></tr>
+        <tr><td>\(\ln x\)</td><td class="center">→</td><td>\(\dfrac{1}{x}\)</td><td>\(x > 0\)</td></tr>
+        <tr><td>\(\log_a x\)</td><td class="center">→</td><td>\(\dfrac{1}{x\ln a}\)</td><td>\(x>0,\,a>0,\,a\neq1\)</td></tr>
+        <tr><td>\(\sin x\)</td><td class="center">→</td><td>\(\cos x\)</td><td></td></tr>
+        <tr><td>\(\cos x\)</td><td class="center">→</td><td>\(-\sin x\)</td><td></td></tr>
+        <tr><td>\(\tan x\)</td><td class="center">→</td><td>\(\dfrac{1}{\cos^2 x}\)</td><td>\(x \neq \frac{\pi}{2}+k\pi\)</td></tr>
+        <tr><td>\(\cot x\)</td><td class="center">→</td><td>\(-\dfrac{1}{\sin^2 x}\)</td><td>\(x \neq k\pi\)</td></tr>
+        <tr><td>\(\arcsin x\)</td><td class="center">→</td><td>\(\dfrac{1}{\sqrt{1-x^2}}\)</td><td>\(|x|<1\)</td></tr>
+        <tr><td>\(\arccos x\)</td><td class="center">→</td><td>\(-\dfrac{1}{\sqrt{1-x^2}}\)</td><td>\(|x|<1\)</td></tr>
+        <tr><td>\(\arctan x\)</td><td class="center">→</td><td>\(\dfrac{1}{1+x^2}\)</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 03 -->
+  <div class="section" id="regole">
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <h2>Regole di Derivazione</h2>
+    </div>
+
+    <p>Date \(f\) e \(g\) derivabili, valgono le seguenti regole:</p>
+
+    <h3>Linearità</h3>
+    <div class="formula">
+      \[(\alpha f + \beta g)' = \alpha f' + \beta g'\]
+    </div>
+
+    <h3>Regola del Prodotto (Leibniz)</h3>
+    <div class="formula">
+      \[(f \cdot g)' = f' g + f g'\]
+    </div>
+
+    <h3>Regola del Quoziente</h3>
+    <div class="formula">
+      \[\left(\frac{f}{g}\right)' = \frac{f'g - fg'}{g^2} \qquad (g \neq 0)\]
+    </div>
+
+    <div class="callout amber">
+      <div class="callout-title">Attenzione — Segno al numeratore</div>
+      <p>L'ordine è \(f'g - fg'\), non il contrario. Un errore di segno è uno degli errori più frequenti all'esame.</p>
+    </div>
+
+    <div class="example">
+      <div class="example-title">Esempio 1 — Prodotto</div>
+      <p>\(\displaystyle D[x^2 \sin x] = 2x\sin x + x^2\cos x\)</p>
+    </div>
+
+    <div class="example">
+      <div class="example-title">Esempio 2 — Quoziente</div>
+      <p>\(\displaystyle D\!\left[\frac{\ln x}{x^2}\right] = \frac{\frac{1}{x}\cdot x^2 - \ln x \cdot 2x}{x^4} = \frac{x - 2x\ln x}{x^4} = \frac{1-2\ln x}{x^3}\)</p>
+    </div>
+
+    <div class="example">
+      <div class="example-title">Esempio 3 — Doppia applicazione del prodotto</div>
+      <p>\(\displaystyle D[x\,e^x\sin x] = e^x\sin x + x\,e^x\sin x + x\,e^x\cos x = e^x\bigl[(1+x)\sin x + x\cos x\bigr]\)</p>
+    </div>
+  </div>
+
+  <!-- 04 -->
+  <div class="section" id="composta">
+    <div class="section-header">
+      <span class="section-number">04</span>
+      <h2>Derivata di Funzione Composta</h2>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">Regola della Catena (Chain Rule)</div>
+      <p>Se \(y = f(g(x))\), allora:</p>
+    </div>
+
+    <div class="formula">
+      \[\bigl[f(g(x))\bigr]' = f'(g(x))\cdot g'(x)\]
+    </div>
+
+    <p>In parole: si deriva la funzione esterna lasciando invariato l'argomento, e si moltiplica per la derivata dell'argomento stesso (derivata interna).</p>
+
+    <h3>Casi tipici composti</h3>
+    <table>
+      <thead>
+        <tr><th>Forma</th><th class="center">→</th><th>Derivata</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>\([g(x)]^n\)</td><td class="center">→</td><td>\(n[g(x)]^{n-1}\cdot g'(x)\)</td></tr>
+        <tr><td>\(e^{g(x)}\)</td><td class="center">→</td><td>\(e^{g(x)}\cdot g'(x)\)</td></tr>
+        <tr><td>\(\ln[g(x)]\)</td><td class="center">→</td><td>\(\dfrac{g'(x)}{g(x)}\)</td></tr>
+        <tr><td>\(\sin[g(x)]\)</td><td class="center">→</td><td>\(\cos[g(x)]\cdot g'(x)\)</td></tr>
+        <tr><td>\(\cos[g(x)]\)</td><td class="center">→</td><td>\(-\sin[g(x)]\cdot g'(x)\)</td></tr>
+        <tr><td>\(\sqrt{g(x)}\)</td><td class="center">→</td><td>\(\dfrac{g'(x)}{2\sqrt{g(x)}}\)</td></tr>
+        <tr><td>\(\arctan[g(x)]\)</td><td class="center">→</td><td>\(\dfrac{g'(x)}{1+[g(x)]^2}\)</td></tr>
+      </tbody>
+    </table>
+
+    <div class="example">
+      <div class="example-title">Esempio 1 — Esponenziale composto</div>
+      <p>\(\displaystyle D\!\left[e^{x^2+1}\right] = e^{x^2+1}\cdot 2x\)</p>
+    </div>
+
+    <div class="example">
+      <div class="example-title">Esempio 2 — Potenza composta</div>
+      <p>\(\displaystyle D\!\left[\sin^4 x\right] = 4\sin^3 x\cdot\cos x\)</p>
+    </div>
+
+    <div class="example">
+      <div class="example-title">Esempio 3 — Logaritmo composto</div>
+      <p>\(\displaystyle D\!\left[\ln(\tan x)\right] = \frac{1}{\tan x}\cdot\frac{1}{\cos^2 x} = \frac{1}{\sin x\cos x} = \frac{2}{\sin 2x}\)</p>
+    </div>
+
+    <div class="example">
+      <div class="example-title">Esempio 4 — Catena tripla</div>
+      <p>\(\displaystyle D\!\left[e^{\sin(x^2)}\right] = e^{\sin(x^2)}\cdot\cos(x^2)\cdot 2x\)</p>
+    </div>
+
+    <h3>Derivata Logaritmica</h3>
+    <p>Per funzioni del tipo \(f(x)^{g(x)}\) conviene usare la <strong>derivata logaritmica</strong>: si scrive \(y = f^g\), si prende il logaritmo, e si deriva implicitamente.</p>
+    <div class="formula">
+      \[D\bigl[f(x)^{g(x)}\bigr] = f(x)^{g(x)}\left[g'(x)\ln f(x) + g(x)\frac{f'(x)}{f(x)}\right]\]
+    </div>
+    <div class="example">
+      <div class="example-title">Esempio — \(D[x^x]\)</div>
+      <p>\(y = x^x \Rightarrow \ln y = x\ln x \Rightarrow \dfrac{y'}{y} = \ln x + 1 \Rightarrow y' = x^x(\ln x + 1)\)</p>
+    </div>
+  </div>
+
+  <!-- 05 -->
+  <div class="section" id="inversa">
+    <div class="section-header">
+      <span class="section-number">05</span>
+      <h2>Derivata della Funzione Inversa</h2>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">Teorema</div>
+      <p>Se \(f\) è invertibile e derivabile in \(x_0\) con \(f'(x_0) \neq 0\), allora \(f^{-1}\) è derivabile in \(y_0 = f(x_0)\) e:</p>
+    </div>
+
+    <div class="formula">
+      \[\bigl(f^{-1}\bigr)'(y_0) = \frac{1}{f'(x_0)} = \frac{1}{f'\bigl(f^{-1}(y_0)\bigr)}\]
+    </div>
+
+    <p>In geometria differenziale: le tangenti di \(f\) e \(f^{-1}\) nel punto corrispondente sono simmetriche rispetto alla bisettrice \(y=x\), quindi i coefficienti angolari sono reciproci.</p>
+
+    <div class="example">
+      <div class="example-title">Esempio — Derivata di \(\arcsin x\)</div>
+      <p>Poniamo \(f(x) = \sin x\), \(f^{-1}(x) = \arcsin x\). Allora \((\arcsin x)' = \dfrac{1}{\cos(\arcsin x)}\). Poiché \(\cos(\arcsin x) = \sqrt{1-x^2}\):</p>
+      <p>\(\displaystyle (\arcsin x)' = \frac{1}{\sqrt{1-x^2}}\)</p>
+    </div>
+  </div>
+
+  <!-- 06 -->
+  <div class="section" id="studio">
+    <div class="section-header">
+      <span class="section-number">06</span>
+      <h2>Studio di Funzione con le Derivate</h2>
+    </div>
+
+    <p>La derivata prima e seconda forniscono le informazioni qualitative fondamentali per tracciare il grafico di una funzione.</p>
+
+    <h3>Derivata Prima — Monotonia</h3>
+    <table>
+      <thead>
+        <tr><th>Condizione</th><th>Conseguenza</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>\(f'(x) > 0\) su \((a,b)\)</td><td>\(f\) è strettamente crescente su \((a,b)\)</td></tr>
+        <tr><td>\(f'(x) < 0\) su \((a,b)\)</td><td>\(f\) è strettamente decrescente su \((a,b)\)</td></tr>
+        <tr><td>\(f'(x_0) = 0\)</td><td>\(x_0\) è un <em>punto stazionario</em> (candidato a estremo)</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Classificazione dei Punti Stazionari (con \(f'\))</h3>
+    <table>
+      <thead>
+        <tr><th>Segno di \(f'\) attorno a \(x_0\)</th><th>Tipo di punto</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>\(f'\) cambia da \(+\) a \(-\)</td><td>Massimo locale</td></tr>
+        <tr><td>\(f'\) cambia da \(-\) a \(+\)</td><td>Minimo locale</td></tr>
+        <tr><td>\(f'\) non cambia segno</td><td>Flesso a tangente orizzontale</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Derivata Seconda — Concavità</h3>
+    <table>
+      <thead>
+        <tr><th>Condizione</th><th>Conseguenza geometrica</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>\(f''(x) > 0\)</td><td>Concavo verso l'alto (convesso)</td></tr>
+        <tr><td>\(f''(x) < 0\)</td><td>Concavo verso il basso (concavo)</td></tr>
+        <tr><td>\(f''(x_0) = 0\) con cambio di segno</td><td>Punto di flesso</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Test della Derivata Seconda per i Punti Stazionari</h3>
+    <div class="callout green">
+      <div class="callout-title">Criterio</div>
+      <p>Se \(f'(x_0) = 0\) e \(f''(x_0) \neq 0\):</p>
+    </div>
+    <div class="formula">
+      \[f''(x_0) > 0 \implies \text{minimo locale} \qquad f''(x_0) < 0 \implies \text{massimo locale}\]
+    </div>
+    <p>Se \(f''(x_0) = 0\) il test è inconclusivo: occorre esaminare il segno di \(f'\).</p>
+
+    <h3>Schema Completo — Studio di funzione</h3>
+    <ol>
+      <li>Dominio e simmetrie (parità/disparità)</li>
+      <li>Segno e zeri</li>
+      <li>Limiti agli estremi del dominio, asintoti</li>
+      <li>\(f'(x)\): punti stazionari, monotonia</li>
+      <li>\(f''(x)\): concavità, punti di flesso</li>
+      <li>Grafico</li>
+    </ol>
+
+    <h3>Asintoti</h3>
+    <table>
+      <thead>
+        <tr><th>Tipo</th><th>Condizione</th><th>Equazione</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Verticale</strong></td><td>\(\displaystyle\lim_{x\to x_0^\pm} f(x) = \pm\infty\)</td><td>\(x = x_0\)</td></tr>
+        <tr><td><strong>Orizzontale</strong></td><td>\(\displaystyle\lim_{x\to\pm\infty} f(x) = L \in \mathbb{R}\)</td><td>\(y = L\)</td></tr>
+        <tr><td><strong>Obliquo</strong></td><td>\(m = \lim_{x\to\infty}\frac{f(x)}{x}\), \(q = \lim_{x\to\infty}[f(x)-mx]\)</td><td>\(y = mx+q\)</td></tr>
+      </tbody>
+    </table>
+
+    <div class="example">
+      <div class="example-title">Esempio completo — Studio di \(f(x) = xe^{-x}\)</div>
+      <p><strong>Dominio:</strong> \(\mathbb{R}\) &nbsp;|&nbsp; <strong>Limiti:</strong> \(\lim_{x\to+\infty}xe^{-x}=0\), \(\lim_{x\to-\infty}xe^{-x}=-\infty\)</p>
+      <p><strong>Derivata prima:</strong> \(f'(x) = e^{-x} - xe^{-x} = e^{-x}(1-x)\) &nbsp;→&nbsp; Stazionario in \(x=1\)</p>
+      <p>Per \(x<1\): \(f'>0\) (crescente); per \(x>1\): \(f'<0\) (decrescente) &nbsp;→&nbsp; <strong>massimo in \(x=1\)</strong>, \(f(1)=e^{-1}\)</p>
+      <p><strong>Derivata seconda:</strong> \(f''(x) = e^{-x}(x-2)\) &nbsp;→&nbsp; Flesso in \(x=2\), \(f(2)=2e^{-2}\)</p>
+    </div>
+  </div>
+
+  <!-- 07 -->
+  <div class="section" id="hopital">
+    <div class="section-header">
+      <span class="section-number">07</span>
+      <h2>Teorema di De L'Hôpital</h2>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">Enunciato</div>
+      <p>Se \(\lim_{x\to x_0} f(x) = \lim_{x\to x_0} g(x) = 0\) (oppure \(\pm\infty\)) e se \(\lim_{x\to x_0}\dfrac{f'(x)}{g'(x)}\) esiste, allora:</p>
+    </div>
+
+    <div class="formula">
+      \[\lim_{x\to x_0}\frac{f(x)}{g(x)} = \lim_{x\to x_0}\frac{f'(x)}{g'(x)}\]
+    </div>
+
+    <p>Si applica alle forme indeterminate \(\dfrac{0}{0}\) e \(\dfrac{\infty}{\infty}\). Le altre forme (\(0\cdot\infty\), \(\infty-\infty\), \(0^0\), \(1^\infty\), \(\infty^0\)) vanno prima ricondotte a queste due.</p>
+
+    <div class="callout red">
+      <div class="callout-title">Attenzione</div>
+      <p>De L'Hôpital si applica solo alle forme \(\frac{0}{0}\) e \(\frac{\infty}{\infty}\). Applicarlo ad un limite che non è in forma indeterminata dà risultati errati.</p>
+    </div>
+
+    <div class="example">
+      <div class="example-title">Esempio 1 — Forma \(0/0\)</div>
+      <p>\(\displaystyle\lim_{x\to 0}\frac{\sin x}{x} = \lim_{x\to 0}\frac{\cos x}{1} = 1\)</p>
+    </div>
+
+    <div class="example">
+      <div class="example-title">Esempio 2 — Forma \(\infty/\infty\)</div>
+      <p>\(\displaystyle\lim_{x\to+\infty}\frac{\ln x}{x} = \lim_{x\to+\infty}\frac{1/x}{1} = 0\)</p>
+    </div>
+
+    <div class="example">
+      <div class="example-title">Esempio 3 — Forma \(0\cdot\infty\), ricondotta a \(0/0\)</div>
+      <p>\(\displaystyle\lim_{x\to 0^+}x\ln x = \lim_{x\to 0^+}\frac{\ln x}{1/x} \overset{\text{H}}{=} \lim_{x\to 0^+}\frac{1/x}{-1/x^2} = \lim_{x\to 0^+}(-x) = 0\)</p>
+    </div>
+  </div>
+
+  <!-- 08 -->
+  <div class="section" id="taylor">
+    <div class="section-header">
+      <span class="section-number">08</span>
+      <h2>Formula di Taylor e MacLaurin</h2>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">Formula di Taylor (con centro \(x_0\))</div>
+      <p>Se \(f\) è \(n\) volte derivabile in \(x_0\):</p>
+    </div>
+
+    <div class="formula">
+      \[f(x) = \sum_{k=0}^{n} \frac{f^{(k)}(x_0)}{k!}(x-x_0)^k + o\bigl((x-x_0)^n\bigr)\]
+    </div>
+
+    <p>Quando \(x_0 = 0\) si chiama <strong>formula di MacLaurin</strong>. Il termine \(o((x-x_0)^n)\) indica un infinitesimo di ordine superiore a \((x-x_0)^n\).</p>
+
+    <h3>Sviluppi di MacLaurin notevoli</h3>
+
+    <table>
+      <thead>
+        <tr><th>Funzione</th><th>Sviluppo fino all'ordine indicato</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>\(e^x\)</td><td>\(\displaystyle 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots + \frac{x^n}{n!} + o(x^n)\)</td></tr>
+        <tr><td>\(\sin x\)</td><td>\(\displaystyle x - \frac{x^3}{3!} + \frac{x^5}{5!} - \cdots + o(x^{2n})\)</td></tr>
+        <tr><td>\(\cos x\)</td><td>\(\displaystyle 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \cdots + o(x^{2n})\)</td></tr>
+        <tr><td>\(\ln(1+x)\)</td><td>\(\displaystyle x - \frac{x^2}{2} + \frac{x^3}{3} - \cdots + o(x^n)\)</td></tr>
+        <tr><td>\((1+x)^\alpha\)</td><td>\(\displaystyle 1 + \alpha x + \frac{\alpha(\alpha-1)}{2!}x^2 + \cdots + o(x^n)\)</td></tr>
+        <tr><td>\(\arctan x\)</td><td>\(\displaystyle x - \frac{x^3}{3} + \frac{x^5}{5} - \cdots + o(x^{2n})\)</td></tr>
+      </tbody>
+    </table>
+
+    <div class="example">
+      <div class="example-title">Esempio — Limite con Taylor</div>
+      <p>\(\displaystyle\lim_{x\to 0}\frac{e^x - 1 - x}{x^2}\): sviluppo di \(e^x = 1+x+\frac{x^2}{2}+o(x^2)\)</p>
+      <p>\(\displaystyle\lim_{x\to 0}\frac{\frac{x^2}{2}+o(x^2)}{x^2} = \frac{1}{2}\)</p>
+    </div>
+  </div>
+
+  <!-- 09 -->
+  <div class="section" id="teoremi">
+    <div class="section-header">
+      <span class="section-number">08</span>
+      <h2>Teoremi Fondamentali (Rolle &amp; Lagrange)</h2>
+    </div>
+
+    <div class="callout green">
+      <div class="callout-title">Teorema di Rolle</div>
+      <p>Se \(f\) è continua su \([a,b]\), derivabile su \((a,b)\), e \(f(a)=f(b)\), allora esiste almeno un \(c \in (a,b)\) tale che \(f'(c) = 0\).</p>
+    </div>
+
+    <p>Geometricamente: se la funzione vale lo stesso agli estremi, in qualche punto intermedio la tangente è orizzontale.</p>
+
+    <div class="callout">
+      <div class="callout-title">Teorema di Lagrange (Valor Medio)</div>
+      <p>Se \(f\) è continua su \([a,b]\) e derivabile su \((a,b)\), allora esiste almeno un \(c \in (a,b)\) tale che:</p>
+    </div>
+
+    <div class="formula">
+      \[f'(c) = \frac{f(b)-f(a)}{b-a}\]
+    </div>
+
+    <p>Geometricamente: esiste un punto in cui la tangente è parallela alla secante che unisce gli estremi del grafico.</p>
+
+    <div class="callout amber">
+      <div class="callout-title">Corollario importante</div>
+      <p>Se \(f'(x) = 0\) per ogni \(x \in (a,b)\), allora \(f\) è costante su \([a,b]\). Se \(f'(x) = g'(x)\) su \((a,b)\), allora \(f(x) - g(x) = c\) (costante).</p>
+    </div>
+
+    <div class="example">
+      <div class="example-title">Esempio — Applicazione di Rolle</div>
+      <p>Mostrare che \(f(x) = x^3 - x\) ha almeno uno zero di \(f'\) in \((0,1)\).</p>
+      <p>\(f(0) = 0 = f(1)\) e \(f\) è derivabile su \(\mathbb{R}\), quindi per Rolle esiste \(c \in (0,1)\) con \(f'(c) = 3c^2-1 = 0\), ossia \(c = 1/\sqrt{3} \approx 0.577 \in (0,1)\). ✓</p>
+    </div>
+  </div>
+
+  <footer>DERIVATE — ANALISI MATEMATICA &nbsp;·&nbsp; Maturità · Liceo Scientifico</footer>
+
+</main>
+</body>
+</html>
