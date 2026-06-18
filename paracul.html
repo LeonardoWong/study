@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Scheda Paraculo Definitiva - Maturità Scientifico</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background-color: #fcfcf9;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #eef2f5;
+        }
+        h1 {
+            color: #1b3a4b;
+            text-align: center;
+            font-size: 28pt;
+            margin-bottom: 10px;
+            border-bottom: 3px solid #3a86c8;
+            padding-bottom: 15px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 13pt;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+        h2 {
+            color: #2c3e50;
+            font-size: 18pt;
+            border-left: 5px solid #3a86c8;
+            padding-left: 12px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        h3 {
+            color: #34495e;
+            font-size: 14pt;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+        p, li {
+            font-size: 11pt;
+            text-align: justify;
+        }
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 25px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .highlight-box {
+            background-color: #f0f7fc;
+            border-left: 4px solid #3a86c8;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .highlight-box p {
+            margin: 0;
+        }
+        .danger-box {
+            background-color: #fdf2f2;
+            border-left: 4px solid #e74c3c;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .danger-box p {
+            margin: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 10.5pt;
+        }
+        th, td {
+            border: 1px solid #dcdde1;
+            padding: 12px 15px;
+            text-align: left;
+        }
+        th {
+            background-color: #1b3a4b;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .math {
+            font-family: 'Times New Roman', Times, serif;
+            font-style: italic;
+            font-weight: bold;
+            color: #1b3a4b;
+        }
+        .center-math {
+            text-align: center;
+            margin: 15px 0;
+            font-size: 12pt;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 10pt;
+            color: #95a5a6;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>LA SCHEDA PARACULO DEFINITIVA</h1>
+    <div class="subtitle">Seconda Prova di Maturità Scientifica • Last Line of Defense</div>
+
+    <div class="highlight-box">
+        <p><strong>Mantra dell'Esame:</strong> La seconda prova premia la strategia. Se ti blocchi su un calcolo, spiega la teoria a parole e vai avanti. Non lasciare mai un punto in bianco!</p>
+    </div>
+
+    <!-- SEZIONE 1: TEOREMI FONDAMENTALI -->
+    <h2>1. I Teoremi Fondamentali (Il Salvagente di Analisi)</h2>
+    
+    <h3>Teorema degli Zeri (L'enigma di <span class="math">&alpha;</span> e <span class="math">&beta;</span>)</h3>
+    <p>Serve a dimostrare che un'equazione del tipo <span class="math">f(x) = 0</span> ha almeno una soluzione in un intervallo, anche se non sai calcolarla esplicitamente.</p>
+    <ul>
+        <li><strong>Ipotesi 1:</strong> <span class="math">f(x)</span> è <strong>continua</strong> nell'intervallo chiuso e limitato <span class="math">[&alpha;, &beta;]</span>.</li>
+        <li><strong>Ipotesi 2:</strong> La funzione cambia segno agli estremi: <span class="math">f(&alpha;) &middot; f(&beta;) &lt; 0</span> (uno è sopra e uno è sotto l'asse <span class="math">x</span>).</li>
+        <li><strong>Tesi:</strong> Esiste almeno un punto <span class="math">c &isin; (&alpha;, &beta;)</span> tale che <span class="math">f(c) = 0</span>.</li>
+    </ul>
+
+    <h3>Teorema Fondamentale del Calcolo Integrale</h3>
+    <p>Mette in relazione la funzione integrale <span class="math">F(x) = &int;<sub>a</sub><sup>x</sup> f(t)dt</span> con la sua derivata.</p>
+    <ul>
+        <li>La derivata prima della "funzione grande" è la funzione interna: <span class="math">F'(x) = f(x)</span>.</li>
+        <li>La derivata seconda della "funzione grande" è la derivata della funzione interna: <span class="math">F''(x) = f'(x)</span>.</li>
+        <li><strong>Trucco d'esame:</strong> Lo studio della convessità/concavità di <span class="math">F(x)</span> si fa guardando semplicemente se <span class="math">f(x)</span> cresce o decresce!</li>
+    </ul>
+
+    <!-- SEZIONE 2: DA FUNZIONE A DERIVATA -->
+    <h2>2. Il Dizionario Visivo del Grafico della Derivata (<span class="math">f &rarr; f'</span>)</h2>
+    <p>Per disegnare o dedurre il grafico di <span class="math">f'(x)</span> guardando quello di <span class="math">f(x)</span>, usa questa tabella di traduzione immediata:</p>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Se il grafico di <span class="math">f(x)</span>...</th>
+                <th>Allora il grafico di <span class="math">f'(x)</span>...</th>
+                <th>Significato Geometrico</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Cresce</strong> (sale da sx a dx)</td>
+                <td>Sta <strong>sopra</strong> l'asse <span class="math">x</span> (<span class="math">y &gt; 0</span>)</td>
+                <td>Pendenza positiva della tangente</td>
+            </tr>
+            <tr>
+                <td><strong>Decresce</strong> (scende da sx a dx)</td>
+                <td>Sta <strong>sotto</strong> l'asse <span class="math">x</span> (<span class="math">y &lt; 0</span>)</td>
+                <td>Pendenza negativa della tangente</td>
+            </tr>
+            <tr>
+                <td>Ha un <strong>Massimo o Minimo</strong></td>
+                <td><strong>Tocca / interseca</strong> l'asse <span class="math">x</span> (<span class="math">y = 0</span>)</td>
+                <td>Tangente perfettamente orizzontale</td>
+            </tr>
+            <tr>
+                <td>Ha concavità verso l'alto (<span class="math">&cup;</span>)</td>
+                <td><strong>Cresce</strong> (sale)</td>
+                <td>La pendenza aumenta continuamente</td>
+            </tr>
+            <tr>
+                <td>Ha concavità verso il basso (<span class="math">&cap;</span>)</td>
+                <td><strong>Decresce</strong> (scende)</td>
+                <td>La pendenza diminuisce continuamente</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- SEZIONE 3: PUNTI DI NON CONTINUITÀ E NON DERIVABILITÀ -->
+    <h2>3. Punti Critici: Non Continuità e Non Derivabilità</h2>
+    <p>I punti in cui le cose "si rompono" sono i preferiti del Ministero. Ecco come riconoscerli e classificarli al volo.</p>
+
+    <h3>A. Punti di Non Continuità (Discontinuità)</h3>
+    <p>Si verificano quando si calcolano i limiti per <span class="math">x &rarr; x<sub>0</sub></span> e qualcosa va storto:</p>
+    <ol>
+        <li><strong>I Specie (Salto):</strong> Il limite destro e il limite sinistro sono entrambi finiti ma diversi. 
+            <div class="center-math"><span class="math">lim<sub>x&rarr;x<sub>0</sub><sup>-</sup></sub> f(x) = l<sub>1</sub> &ne; lim<sub>x&rarr;x<sub>0</sub><sup>+</sup></sub> f(x) = l<sub>2</sub></span></div>
+            <em>Graficamente:</em> Il grafico si interrompe bruscamente e riparte più in alto o più in basso (un gradino).
+        </li>
+        <li><strong>II Specie (Infinito):</strong> Almeno uno dei due limiti (destro o sinistro) è infinito (<span class="math">&plusmn;&infin;</span>) o non esiste.
+            <em>Graficamente:</em> Presenza di un <strong>asintoto verticale</strong>.
+        </li>
+        <li><strong>III Specie (Eliminabile):</strong> Il limite esiste ed è finito, ma la funzione o non esiste in quel punto, oppure ha un valore diverso dal limite.
+            <em>Graficamente:</em> C'è un "buco" millimetrico nel grafico.
+        </li>
+    </</ol>
+
+    <h3>B. Punti di Non Derivabilità</h3>
+    <div class="danger-box">
+        <p><strong>ATTENZIONE:</strong> La funzione deve essere prima di tutto <strong>continua</strong> in quel punto. Se non è continua, non è automaticamente derivabile, e non si parla di punti di non derivabilità ma di discontinuità!</p>
+    </div>
+    <p>Se la funzione è continua, calcoliamo il limite destro e sinistro della derivata prima <span class="math">f'(x)</span> per <span class="math">x &rarr; x<sub>0</sub></span>:</p>
+    <ul>
+        <li><strong>Punto Angoloso:</strong> I due limiti sono finiti ma diversi, oppure uno è finito e l'altro è infinito.
+            <div class="center-math"><span class="math">lim<sub>x&rarr;x<sub>0</sub><sup>-</sup></sub> f'(x) = m<sub>1</sub> &ne; lim<sub>x&rarr;x<sub>0</sub><sup>+</sup></sub> f'(x) = m<sub>2</sub></span></div>
+            <em>Graficamente:</em> Una "punta" sul grafico (cambio brusco di direzione, come nel punto <span class="math">x=0</span> del problema). Il grafico della derivata mostrerà un <strong>salto</strong>.
+        </li>
+        <li><strong>Cuspide:</strong> I due limiti sono entrambi infiniti ma di segno opposto.
+            <div class="center-math"><span class="math">lim<sub>x&rarr;x<sub>0</sub><sup>-</sup></sub> f'(x) = -&infin;</span> e <span class="math">lim<sub>x&rarr;x<sub>0</sub><sup>+</sup></sub> f'(x) = +&infin;</span> (o viceversa)</div>
+            <em>Graficamente:</em> Una punta strettissima rivolta verso l'alto o verso il basso. Il grafico della derivata mostrerà un <strong>asintoto verticale</strong>.
+        </li>
+        <li><strong>Flesso a Tangente Verticale:</strong> I due limiti sono entrambi infiniti e con lo stesso segno.
+            <div class="center-math"><span class="math">lim<sub>x&rarr;x<sub>0</sub><sup>-</sup></sub> f'(x) = lim<sub>x&rarr;x<sub>0</sub><sup>+</sup></sub> f'(x) = &plusmn;&infin;</span></div>
+            <em>Graficamente:</em> La funzione attraversa il punto verticalmente, "spianandosi" solo per un istante. Anche qui la derivata ha un <strong>asintoto verticale</strong>.
+        </li>
+    </ul>
+
+    <!-- SEZIONE 4: DOMINIO, CODOMINIO E INVERSA -->
+    <h2>4. Dominio, Codominio e Inversione</h2>
+    <ul>
+        <li><strong>Dominio (Asse <span class="math">x</span>):</strong> L'insieme dei valori di input ammissibili.</li>
+        <li><strong>Codominio / Immagine (Asse <span class="math">y</span>):** L'insieme dei valori che la funzione restituisce come output (guarda dal grafico il punto più basso e il punto più alto).</li>
+        <li><strong>Iniettività:</strong> Una funzione è iniettiva se tracciando linee orizzontali sul grafico, queste lo intersecano <strong>al massimo una volta</strong>. Se una funzione cresce sempre o scende sempre in un intervallo, è iniettiva.</li>
+        <li><strong>Invertibilità:</strong> Se è iniettiva, è invertibile. 
+            <ul>
+                <li>Il <strong>Dominio</strong> di <span class="math">f(x)</span> diventa il <strong>Codominio</strong> di <span class="math">f&nbsp;<sup>-1</sup>(x)</span>.</li>
+                <li>Il <strong>Codominio</strong> di <span class="math">f(x)</span> diventa il <strong>Dominio</strong> di <span class="math">f&nbsp;<sup>-1</sup>(x)</span>.</li>
+                <li>Il grafico dell'inversa è <strong>simmetrico</strong> rispetto alla retta <span class="math">y = x</span>.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <!-- SEZIONE 5: GEOMETRIA DEGLI INTEGRALI -->
+    <h2>5. Divisione delle Aree con gli Integrali (Problema Tipo D)</h2>
+    <p>Se il problema chiede di trovare una retta verticale <span class="math">x = k</span> che divida un'area <span class="math">S</span> (compresa tra <span class="math">a</span> e <span class="math">b</span>) in due parti perfettamente uguali (regioni equivalenti), segui questa procedura standard:</p>
+    <ol>
+        <li>Calcola l'area totale della regione tramite l'integrale definito:
+            <div class="center-math"><span class="math">S<sub>tot</sub> = &int;<sub>a</sub><sup>b</sup> f(x) dx</span></div>
+        </li>
+        <li>Imposta l'equazione di uguaglianza per la metà dell'area usando <span class="math">k</span> come estremo superiore:
+            <div class="center-math"><span class="math">&int;<sub>a</sub><sup>k</sup> f(x) dx = &frac12; S<sub>tot</sub></span></div>
+        </li>
+        <li>Risolvi l'integrale mantenendo il parametro <span class="math">k</span>, esplicita l'equazione algebrica che ne deriva e isola il valore di <span class="math">k</span>. Verificalo geometricamente per assicurarti che sia compreso tra <span class="math">a</span> e <span class="math">b</span>.</li>
+    </</ol>
+
+    <div class="footer">
+        Fai un bel respiro. La matematica è solo logica applicata. In bocca al lupo! • Prodotto creato per lo studio pre-esame.
+    </div>
+</div>
+
+</body>
+</html>
